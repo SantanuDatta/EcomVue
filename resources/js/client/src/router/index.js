@@ -93,16 +93,27 @@ router.beforeEach(async (to, from, next) => {
         return next({ name: 'app.dashboard' });
     }
 
-    if (to.meta.requiresAuth) {
+    if (!authStore.isAuthenticated) {
         try {
             await authStore.fetchUser();
-            next();
         } catch (error) {
-            return next({ name: 'login' });
+            if (to.meta.requiresAuth) {
+                return next({ name: 'login' });
+            }
+        }
+    }
+
+    if (authStore.isAuthenticated) {
+        if (to.meta.requiresGuest) {
+            return next({ name: 'app.dashboard' });
         }
     } else {
-        next();
+        if (to.meta.requiresAuth) {
+            return next({ name: 'login' });
+        }
     }
+
+    return next();
 });
 
 export default router;
