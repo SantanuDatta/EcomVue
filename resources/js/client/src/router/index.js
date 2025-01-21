@@ -116,4 +116,10 @@ router.beforeEach(async (to, from, next) => {
     return next();
 });
 
+router.afterEach((to) => {
+    const appName = import.meta.env.VITE_APP_NAME;
+    const title = to.meta.title ? `${appName} | ${to.meta.title}` : appName;
+    document.title = title;
+});
+
 export default router;
