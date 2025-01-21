@@ -1,3 +1,4 @@
+import { useAuthStore } from '@/stores/auth';
 import Axios from 'axios';
 
 const axios = Axios.create({
@@ -9,8 +10,14 @@ const axios = Axios.create({
 axios.interceptors.response.use(
     (response) => response,
     (error) => {
-        if (error.response && error.response.status === 401) {
-            router.push({ name: 'login' });
+        if (error.response?.status === 401) {
+            const authStore = useAuthStore();
+            authStore.authUser = null;
+            authStore.isAuthenticated = false;
+
+            if (router.currentRoute.value.name !== 'login') {
+                router.push({ name: 'login' });
+            }
         }
         return Promise.reject(error);
     }

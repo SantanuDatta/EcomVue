@@ -1,10 +1,16 @@
 <?php
 
-use Illuminate\Http\Request;
+use App\Http\Controllers\Auth\AuthenticatedSessionController;
 use Illuminate\Support\Facades\Route;
 
-Route::middleware(['auth:sanctum'])->group(function () {
-    Route::get('/user', function (Request $request) {
-        return $request->user();
-    });
+Route::middleware(['auth:sanctum', 'admin'])->group(function () {
+    Route::get('/user', [AuthenticatedSessionController::class, 'index']);
 });
+
+Route::post('/login', [AuthenticatedSessionController::class, 'store'])
+    ->middleware('guest')
+    ->name('login');
+
+Route::post('/logout', [AuthenticatedSessionController::class, 'destroy'])
+    ->middleware('auth:sanctum')
+    ->name('logout');

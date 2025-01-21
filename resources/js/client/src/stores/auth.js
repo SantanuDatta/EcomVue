@@ -21,10 +21,16 @@ export const useAuthStore = defineStore('auth', {
             await axios.get('/sanctum/csrf-cookie');
         },
         async fetchUser() {
-            const response = await axios.get('/api/user');
-            this.authUser = response.data;
-            this.isAuthenticated = true;
-            return response;
+            try {
+                const response = await axios.get('/api/user');
+                this.authUser = response.data;
+                this.isAuthenticated = true;
+                return response;
+            } catch (error) {
+                this.authUser = null;
+                this.isAuthenticated = false;
+                throw error;
+            }
         },
         async register(data) {
             this.clearErrors();
@@ -47,7 +53,7 @@ export const useAuthStore = defineStore('auth', {
             await this.fetchCsrfCookie();
             this.processing = true;
             try {
-                await axios.post('/login', data);
+                await axios.post('/api/login', data);
                 await this.fetchUser();
                 router.push({ name: 'app.dashboard' });
             } catch (error) {
@@ -60,7 +66,7 @@ export const useAuthStore = defineStore('auth', {
         },
         async logout() {
             try {
-                await axios.post('/logout');
+                await axios.post('/api/logout');
             } finally {
                 this.authUser = null;
                 this.isAuthenticated = false;

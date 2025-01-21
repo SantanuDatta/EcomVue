@@ -4,6 +4,7 @@ namespace App\Providers;
 
 use Carbon\CarbonImmutable;
 use Illuminate\Auth\Notifications\ResetPassword;
+use Illuminate\Http\Resources\Json\JsonResource;
 use Illuminate\Support\Facades\Date;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Vite;
@@ -27,6 +28,8 @@ class AppServiceProvider extends ServiceProvider
         ResetPassword::createUrlUsing(function (object $notifiable, string $token) {
             return config('app.frontend_url')."/password-reset/$token?email={$notifiable->getEmailForPasswordReset()}";
         });
+
+        JsonResource::withoutWrapping();
 
         $this->configureCommands();
         // $this->configureModels();
