@@ -16,17 +16,20 @@ const form = ref({
 
 onMounted(() => {
   authStore.clearErrors();
-})
+});
 
 onUnmounted(() => {
   authStore.clearErrors();
-})
-
+});
 </script>
 
 <template>
   <GuestLayout title="Register for an account">
-    <form class="space-y-6" method="POST" @submit.prevent="authStore.register(form)">
+    <form
+      class="space-y-6"
+      method="POST"
+      @submit.prevent="authStore.register(form)"
+    >
       <div>
         <label
           for="name"
@@ -40,7 +43,9 @@ onUnmounted(() => {
             type="name"
             v-model="form.name"
             autocomplete="name"
-            :class="{ 'border-red-500 focus:ring-red-500': authStore.errors.name }"
+            :class="{
+              'border-red-500 focus:ring-red-500': authStore.errors.name,
+            }"
           />
           <p v-if="authStore.errors.name" class="text-red-500">
             {{ authStore.errors.name[0] }}
@@ -61,7 +66,9 @@ onUnmounted(() => {
             type="email"
             v-model="form.email"
             autocomplete="email"
-            :class="{ 'border-red-500 focus:ring-red-500': authStore.errors.email }"
+            :class="{
+              'border-red-500 focus:ring-red-500': authStore.errors.email,
+            }"
           />
           <p v-if="authStore.errors.email" class="text-red-500">
             {{ authStore.errors.email[0] }}
@@ -81,7 +88,9 @@ onUnmounted(() => {
             name="password"
             type="password"
             v-model="form.password"
-            :class="{ 'border-red-500 focus:ring-red-500': authStore.errors.password }"
+            :class="{
+              'border-red-500 focus:ring-red-500': authStore.errors.password,
+            }"
           />
           <p v-if="authStore.errors.password" class="text-red-500">
             {{ authStore.errors.password[0] }}
@@ -101,7 +110,10 @@ onUnmounted(() => {
             name="password_confirmation"
             type="password"
             v-model="form.password_confirmation"
-            :class="{ 'border-red-500 focus:ring-red-500': authStore.errors.password_confirmation }"
+            :class="{
+              'border-red-500 focus:ring-red-500':
+                authStore.errors.password_confirmation,
+            }"
           />
           <p v-if="authStore.errors.password_confirmation" class="text-red-500">
             {{ authStore.errors.password_confirmation[0] }}

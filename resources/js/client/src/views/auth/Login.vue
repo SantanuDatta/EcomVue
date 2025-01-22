@@ -14,11 +14,11 @@ const form = ref({
 
 onMounted(() => {
   authStore.clearErrors();
-})
+});
 
 onUnmounted(() => {
   authStore.clearErrors();
-})
+});
 </script>
 
 <template>
@@ -41,7 +41,9 @@ onUnmounted(() => {
             type="email"
             v-model="form.email"
             autocomplete="email"
-            :class="{ 'border-red-500 focus:ring-red-500': authStore.errors.email }"
+            :class="{
+              'border-red-500 focus:ring-red-500': authStore.errors.email,
+            }"
           />
           <p v-if="authStore.errors.email" class="text-red-500">
             {{ authStore.errors.email[0] }}
@@ -71,7 +73,9 @@ onUnmounted(() => {
             type="password"
             v-model="form.password"
             autocomplete="current-password"
-            :class="{ 'border-red-500 focus:ring-red-500': authStore.errors.password }"
+            :class="{
+              'border-red-500 focus:ring-red-500': authStore.errors.password,
+            }"
           />
           <p v-if="authStore.errors.password" class="text-red-500">
             {{ authStore.errors.password[0] }}

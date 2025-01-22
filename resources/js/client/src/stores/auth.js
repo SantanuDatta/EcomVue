@@ -11,6 +11,7 @@ export const useAuthStore = defineStore('auth', {
     }),
     getters: {
         user: (state) => state.authUser,
+        authenticated: (state) => state.isAuthenticated,
         errors: (state) => state.authErrors,
     },
     actions: {
@@ -25,11 +26,9 @@ export const useAuthStore = defineStore('auth', {
                 const response = await axios.get('/api/user');
                 this.authUser = response.data;
                 this.isAuthenticated = true;
-                return response;
             } catch (error) {
                 this.authUser = null;
                 this.isAuthenticated = false;
-                throw error;
             }
         },
         async register(data) {
@@ -39,7 +38,7 @@ export const useAuthStore = defineStore('auth', {
             try {
                 await axios.post('/register', data);
                 await this.fetchUser();
-                router.push({ name: 'app.dashboard' });
+                router.replace({ name: 'app.dashboard' });
             } catch (error) {
                 if (error.response?.status === 422) {
                     this.authErrors = error.response.data.errors;
@@ -53,9 +52,9 @@ export const useAuthStore = defineStore('auth', {
             await this.fetchCsrfCookie();
             this.processing = true;
             try {
-                await axios.post('/api/login', data);
+                await axios.post('/login', data);
                 await this.fetchUser();
-                router.push({ name: 'app.dashboard' });
+                router.replace({ name: 'app.dashboard' });
             } catch (error) {
                 if (error.response?.status === 422) {
                     this.authErrors = error.response.data.errors;
@@ -66,12 +65,12 @@ export const useAuthStore = defineStore('auth', {
         },
         async logout() {
             try {
-                await axios.post('/api/logout');
+                await axios.post('/logout');
             } finally {
                 this.authUser = null;
                 this.isAuthenticated = false;
                 this.clearErrors();
-                router.push({ name: 'login' });
+                router.replace({ name: 'login' });
             }
         },
     },

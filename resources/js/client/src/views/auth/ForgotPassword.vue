@@ -33,9 +33,7 @@ import GuestLayout from "@/layouts/GuestLayout.vue";
       </div>
 
       <div>
-        <PrimaryButton>
-          Request Password
-        </PrimaryButton>
+        <PrimaryButton> Request Password </PrimaryButton>
       </div>
     </form>
   </GuestLayout>

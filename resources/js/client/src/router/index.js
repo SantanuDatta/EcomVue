@@ -89,28 +89,12 @@ const router = createRouter({
 router.beforeEach(async (to, from, next) => {
     const authStore = useAuthStore();
 
-    if (authStore.isAuthenticated && to.meta.requiresGuest) {
+    if (to.meta.requiresAuth && !authStore.authenticated) {
+        return next({ name: 'login' });
+    }
+
+    if (to.meta.requiresGuest && authStore.authenticated) {
         return next({ name: 'app.dashboard' });
-    }
-
-    if (!authStore.isAuthenticated) {
-        try {
-            await authStore.fetchUser();
-        } catch (error) {
-            if (to.meta.requiresAuth) {
-                return next({ name: 'login' });
-            }
-        }
-    }
-
-    if (authStore.isAuthenticated) {
-        if (to.meta.requiresGuest) {
-            return next({ name: 'app.dashboard' });
-        }
-    } else {
-        if (to.meta.requiresAuth) {
-            return next({ name: 'login' });
-        }
     }
 
     return next();
