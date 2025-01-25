@@ -1,7 +1,10 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Database\Factories;
 
+use App\Models\User;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
 /**
@@ -17,7 +20,11 @@ class ProductFactory extends Factory
     public function definition(): array
     {
         return [
-            //
+            'title' => fake()->unique()->sentence(3),
+            'image' => fake()->imageUrl(),
+            'description' => fake()->realText(1000),
+            'price' => random_int(500, 2000),
+            'created_by' => User::factory(),
         ];
     }
 }

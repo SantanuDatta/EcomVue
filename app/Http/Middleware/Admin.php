@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Http\Middleware;
 
 use Closure;
@@ -12,15 +14,17 @@ class Admin
     /**
      * Handle an incoming request.
      *
-     * @param  \Closure(\Illuminate\Http\Request): (\Symfony\Component\HttpFoundation\Response)  $next
+     * @param  Closure(Request): (Response)  $next
      */
     public function handle(Request $request, Closure $next): Response
     {
-        if(Auth::user() && Auth::user()->is_admin === 1){
+        /** @phpstan-ignore-next-line */
+        if (Auth::user() && Auth::user()->is_admin === 1) {
             return $next($request);
         }
+
         return response([
-            'message' => 'You are not authorized to perform this action.'
+            'message' => 'You are not authorized to perform this action.',
         ], 403);
     }
 }

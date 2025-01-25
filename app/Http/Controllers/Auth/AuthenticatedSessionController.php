@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Http\Controllers\Auth;
 
 use App\Http\Controllers\Controller;
@@ -11,11 +13,10 @@ use Illuminate\Support\Facades\Auth;
 
 class AuthenticatedSessionController extends Controller
 {
-
     /**
      * Shows the authenticated user.
      */
-    public function index(Request $request)
+    public function index(Request $request): UserResource
     {
         return new UserResource($request->user());
     }
