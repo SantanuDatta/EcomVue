@@ -73,6 +73,14 @@ const routes = [
         },
     },
     {
+        path: '/internal-server-error',
+        name: 'internalServerError',
+        component: () => import('@/views/error/500.vue'),
+        meta: {
+            title: 'Internal Server Error',
+        }
+    },
+    {
         path: '/:pathMatch(.*)*',
         redirect: '/page-not-found',
         meta: {
@@ -88,6 +96,12 @@ const router = createRouter({
 
 router.beforeEach(async (to, from, next) => {
     const authStore = useAuthStore();
+
+    if (!to.meta.requiresGuest) {
+        if (!authStore.authUser && !authStore.processing) {
+            await authStore.fetchUser();
+        }
+    }
 
     if (to.meta.requiresAuth && !authStore.authenticated) {
         return next({ name: 'login' });

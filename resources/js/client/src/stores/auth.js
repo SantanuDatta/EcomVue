@@ -1,4 +1,4 @@
-import axios from '@/axios';
+import axios from '@/lib/axios';
 import router from '@/router';
 import { defineStore } from 'pinia';
 
@@ -21,14 +21,21 @@ export const useAuthStore = defineStore('auth', {
         async fetchCsrfCookie() {
             await axios.get('/sanctum/csrf-cookie');
         },
+        async cleanState() {
+            this.authUser = null;
+            this.isAuthenticated = false;
+        },
         async fetchUser() {
+            if (this.processing) return;
+            this.processing = true;
             try {
                 const response = await axios.get('/api/user');
                 this.authUser = response.data;
                 this.isAuthenticated = true;
             } catch (error) {
-                this.authUser = null;
-                this.isAuthenticated = false;
+                this.cleanState();
+            } finally {
+                this.processing = false;
             }
         },
         async register(data) {
@@ -67,8 +74,7 @@ export const useAuthStore = defineStore('auth', {
             try {
                 await axios.post('/logout');
             } finally {
-                this.authUser = null;
-                this.isAuthenticated = false;
+                this.cleanState();
                 this.clearErrors();
                 router.replace({ name: 'login' });
             }
