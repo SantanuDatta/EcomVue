@@ -1,4 +1,5 @@
 <script setup>
+import ErrorLabel from "@/components/auth/ErrorLabel.vue";
 import PrimaryButton from "@/components/auth/PrimaryButton.vue";
 import TextInput from "@/components/auth/TextInput.vue";
 import GuestLayout from "@/layouts/GuestLayout.vue";
@@ -45,9 +46,7 @@ onUnmounted(() => {
               'border-red-500 focus:ring-red-500': authStore.errors.email,
             }"
           />
-          <p v-if="authStore.errors.email" class="text-red-500">
-            {{ authStore.errors.email[0] }}
-          </p>
+          <ErrorLabel :errors="authStore.errors.email" />
         </div>
       </div>
 
@@ -77,9 +76,7 @@ onUnmounted(() => {
               'border-red-500 focus:ring-red-500': authStore.errors.password,
             }"
           />
-          <p v-if="authStore.errors.password" class="text-red-500">
-            {{ authStore.errors.password[0] }}
-          </p>
+          <ErrorLabel :errors="authStore.errors.password" />
         </div>
       </div>
 
