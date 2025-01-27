@@ -72,3 +72,7 @@ These are packages that used for this project.
 | **Package**                                                                                          | **Author**                                          |
 | :-------------------------------------------------------------------------------------------------- | :-------------------------------------------------- |
 | [Laravel Sluggable by Spatie](https://github.com/spatie/laravel-sluggable) | [Spatie](https://github.com/spatie) |
+
+## License
+
+EcomVue is provided under the [AGPL-3.0 license](LICENSE).
