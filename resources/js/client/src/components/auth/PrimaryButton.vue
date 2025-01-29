@@ -2,7 +2,6 @@
 defineProps({
   type: {
     type: String,
-
     default: "submit",
   },
 

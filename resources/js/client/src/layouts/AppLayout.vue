@@ -35,7 +35,7 @@ const navigation = [
     icon: HomeIcon,
     current: true,
   },
-  { name: "Team", href: "#", icon: UsersIcon, current: false },
+  { name: "Product", to: { name: "app.products" }, icon: UsersIcon, current: false },
   { name: "Projects", href: "#", icon: FolderIcon, current: false },
   { name: "Calendar", href: "#", icon: CalendarIcon, current: false },
   { name: "Documents", href: "#", icon: DocumentDuplicateIcon, current: false },
@@ -263,15 +263,11 @@ const sidebarOpen = ref(false);
                 <span class="hidden lg:flex lg:items-center">
                   <!-- Display user name if authenticated, otherwise display "Loading..." -->
                   <span
-                    v-if="authStore.isAuthenticated"
+                    v-if="authStore.authenticated"
                     class="ml-4 text-sm font-semibold leading-6 text-gray-900"
                     aria-hidden="true"
                   >
-                    {{
-                      authStore.authUser
-                        ? authStore.authUser.name
-                        : "Loading..."
-                    }}
+                    {{ authStore.user?.name || 'Loading...' }}
                   </span>
                   <ChevronDownIcon
                     class="ml-2 h-5 w-5 text-gray-400"

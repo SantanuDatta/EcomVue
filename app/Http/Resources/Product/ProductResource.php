@@ -6,6 +6,7 @@ namespace App\Http\Resources\Product;
 
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\JsonResource;
+use Illuminate\Support\Number;
 
 /**
  * @property-read int $id
@@ -32,7 +33,7 @@ class ProductResource extends JsonResource
             'slug' => $this->slug,
             'image' => $this->image,
             'description' => $this->description,
-            'price' => $this->price,
+            'price' => Number::currency($this->price),
             'created_at' => $this->created_at,
             'updated_at' => $this->updated_at,
         ];

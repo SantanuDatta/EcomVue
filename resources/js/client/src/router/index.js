@@ -18,6 +18,14 @@ const routes = [
                     title: 'Dashboard',
                 },
             },
+            {
+                path: 'products',
+                name: 'app.products',
+                component: () => import('@/views/product/ProductList.vue'),
+                meta: {
+                    title: 'Products',
+                },
+            }
         ],
     },
     {
