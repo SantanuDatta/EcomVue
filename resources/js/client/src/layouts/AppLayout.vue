@@ -35,11 +35,12 @@ const navigation = [
     icon: HomeIcon,
     current: true,
   },
-  { name: "Product", to: { name: "app.products" }, icon: UsersIcon, current: false },
-  { name: "Projects", href: "#", icon: FolderIcon, current: false },
-  { name: "Calendar", href: "#", icon: CalendarIcon, current: false },
-  { name: "Documents", href: "#", icon: DocumentDuplicateIcon, current: false },
-  { name: "Reports", href: "#", icon: ChartPieIcon, current: false },
+  {
+    name: "Product",
+    to: { name: "app.products" },
+    icon: UsersIcon,
+    current: false,
+  },
 ];
 const userNavigation = [
   { name: "Your profile", to: "#" },
@@ -267,7 +268,7 @@ const sidebarOpen = ref(false);
                     class="ml-4 text-sm font-semibold leading-6 text-gray-900"
                     aria-hidden="true"
                   >
-                    {{ authStore.user?.name || 'Loading...' }}
+                    {{ authStore.user?.name || "Loading..." }}
                   </span>
                   <ChevronDownIcon
                     class="ml-2 h-5 w-5 text-gray-400"
