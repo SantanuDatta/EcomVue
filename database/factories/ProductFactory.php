@@ -21,7 +21,7 @@ class ProductFactory extends Factory
     {
         return [
             'title' => fake()->unique()->sentence(3),
-            'image' => fake()->imageUrl(),
+            'image' => 'https://picsum.photos/400/?seed='. rand(1, 100),
             'description' => fake()->realText(1000),
             'price' => random_int(500, 2000),
             'created_by' => User::factory(),
