@@ -1,11 +1,12 @@
-import axios from '@/lib/axios';
-import { defineStore } from 'pinia';
+import axios from "@/lib/axios";
+import { defineStore } from "pinia";
 
-export const useAuthStore = defineStore('auth', {
+export const useAuthStore = defineStore("auth", {
     state: () => ({
         authUser: null,
         isAuthenticated: false,
         processing: false,
+        isSessionVerified: false,
         authErrors: {},
     }),
     getters: {
@@ -14,27 +15,33 @@ export const useAuthStore = defineStore('auth', {
         errors: (state) => state.authErrors,
     },
     actions: {
+        async verifySession() {
+            if (!this.isAuthenticated && !this.isSessionVerified) {
+                await this.fetchUser();
+            }
+        },
         async clearErrors() {
             this.authErrors = {};
         },
         async fetchCsrfCookie() {
-            await axios.get('/sanctum/csrf-cookie');
+            await axios.get("/sanctum/csrf-cookie");
         },
         async cleanState() {
             this.authUser = null;
             this.isAuthenticated = false;
         },
         async fetchUser() {
-            if (this.processing) return;
+            // if (this.processing) return;
             this.processing = true;
             try {
-                const response = await axios.get('/api/user');
+                const response = await axios.get("/api/user");
                 this.authUser = response.data;
                 this.isAuthenticated = true;
             } catch (error) {
                 this.cleanState();
             } finally {
                 this.processing = false;
+                this.isSessionVerified = true;
             }
         },
         async register(data) {
@@ -42,9 +49,9 @@ export const useAuthStore = defineStore('auth', {
             this.processing = true;
             try {
                 await this.fetchCsrfCookie();
-                await axios.post('/register', data);
+                await axios.post("/register", data);
                 await this.fetchUser();
-                this.router.replace({ name: 'app.dashboard' });
+                this.router.replace({ name: "app.dashboard" });
             } catch (error) {
                 if (error.response?.status === 422) {
                     this.authErrors = error.response.data.errors;
@@ -58,10 +65,11 @@ export const useAuthStore = defineStore('auth', {
             this.processing = true;
             try {
                 await this.fetchCsrfCookie();
-                await axios.post('/login', data);
+                await axios.post("/login", data);
                 await this.fetchUser();
-                this.router.replace({ name: 'app.dashboard' });
+                this.router.replace({ name: "app.dashboard" });
             } catch (error) {
+                console.log(error);
                 if (error.response?.status === 422) {
                     this.authErrors = error.response.data.errors;
                 }
@@ -71,11 +79,11 @@ export const useAuthStore = defineStore('auth', {
         },
         async logout() {
             try {
-                await axios.post('/api/logout');
+                await axios.post("/api/logout");
             } finally {
                 this.cleanState();
                 this.clearErrors();
-                this.router.replace({ name: 'login' });
+                this.router.replace({ name: "login" });
             }
         },
     },
