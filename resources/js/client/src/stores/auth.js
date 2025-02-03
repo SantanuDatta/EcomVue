@@ -1,5 +1,4 @@
 import axios from '@/lib/axios';
-import router from '@/router';
 import { defineStore } from 'pinia';
 
 export const useAuthStore = defineStore('auth', {
@@ -40,12 +39,12 @@ export const useAuthStore = defineStore('auth', {
         },
         async register(data) {
             this.clearErrors();
-            await this.fetchCsrfCookie();
             this.processing = true;
             try {
+                await this.fetchCsrfCookie();
                 await axios.post('/register', data);
                 await this.fetchUser();
-                router.replace({ name: 'app.dashboard' });
+                this.router.replace({ name: 'app.dashboard' });
             } catch (error) {
                 if (error.response?.status === 422) {
                     this.authErrors = error.response.data.errors;
@@ -56,12 +55,12 @@ export const useAuthStore = defineStore('auth', {
         },
         async login(data) {
             this.clearErrors();
-            await this.fetchCsrfCookie();
             this.processing = true;
             try {
+                await this.fetchCsrfCookie();
                 await axios.post('/login', data);
                 await this.fetchUser();
-                router.replace({ name: 'app.dashboard' });
+                this.router.replace({ name: 'app.dashboard' });
             } catch (error) {
                 if (error.response?.status === 422) {
                     this.authErrors = error.response.data.errors;
@@ -72,11 +71,11 @@ export const useAuthStore = defineStore('auth', {
         },
         async logout() {
             try {
-                await axios.post('/logout');
+                await axios.post('/api/logout');
             } finally {
                 this.cleanState();
                 this.clearErrors();
-                router.replace({ name: 'login' });
+                this.router.replace({ name: 'login' });
             }
         },
     },

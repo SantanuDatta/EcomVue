@@ -7,7 +7,7 @@ const routes = [
         name: 'app',
         component: () => import('@/layouts/AppLayout.vue'),
         meta: {
-            requiresAuth: true,
+            auth: true,
         },
         children: [
             {
@@ -42,7 +42,7 @@ const routes = [
         component: () => import('@/views/auth/Login.vue'),
         meta: {
             title: 'Login',
-            requiresGuest: true,
+            guest: true,
         },
     },
     {
@@ -51,7 +51,7 @@ const routes = [
         component: () => import('@/views/auth/Register.vue'),
         meta: {
             title: 'Register',
-            requiresGuest: true,
+            guest: true,
         },
     },
     {
@@ -60,7 +60,7 @@ const routes = [
         component: () => import('@/views/auth/ForgotPassword.vue'),
         meta: {
             title: 'Forgot Password',
-            requiresGuest: true,
+            guest: true,
         },
     },
     {
@@ -69,7 +69,7 @@ const routes = [
         component: () => import('@/views/auth/ResetPassword.vue'),
         meta: {
             title: 'Reset Password',
-            requiresGuest: true,
+            guest: true,
         },
     },
     {
@@ -92,7 +92,7 @@ const routes = [
         path: '/:pathMatch(.*)*',
         redirect: '/page-not-found',
         meta: {
-            requiresGuest: true,
+            guest: true,
         },
     },
 ];
@@ -102,24 +102,16 @@ const router = createRouter({
     routes,
 });
 
-router.beforeEach(async (to, from, next) => {
+router.beforeEach(async (to, from) => {
     const authStore = useAuthStore();
 
-    if (!to.meta.requiresGuest) {
-        if (!authStore.authUser && !authStore.processing) {
-            await authStore.fetchUser();
-        }
+    if (authStore.user && to.meta.guest) {
+        return { name: 'app.dashboard' };
     }
 
-    if (to.meta.requiresAuth && !authStore.authenticated) {
-        return next({ name: 'login' });
+    if (!authStore.user && to.meta.auth) {
+        return { name: 'login' };
     }
-
-    if (to.meta.requiresGuest && authStore.authenticated) {
-        return next({ name: 'app.dashboard' });
-    }
-
-    return next();
 });
 
 router.afterEach((to) => {
