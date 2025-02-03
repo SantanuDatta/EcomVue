@@ -54,6 +54,7 @@ Now go to this directory
 
 ```bash
 cd resources/js/client
+cp .env.example .env
 ```
 
 And run
