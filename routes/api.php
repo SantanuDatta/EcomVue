@@ -10,4 +10,7 @@ Route::middleware(['auth:sanctum'])->group(function () {
     Route::get('/user', [AuthenticatedSessionController::class, 'index']);
 
     Route::apiResource('/products', ProductController::class);
+
+    Route::post('/logout', [AuthenticatedSessionController::class, 'destroy'])
+    ->name('logout');
 });

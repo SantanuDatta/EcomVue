@@ -15,18 +15,13 @@
       </div>
     </div>
 
-    <BaseTable
-      :columns="columns"
-      :items="productStore.products"
-    >
+    <BaseTable :columns="columns" :items="productStore.products">
       <template #row="{ item }">
-        <td class="whitespace-nowrap py-4 pl-4 pr-3 text-sm font-medium text-gray-900 sm:pl-6">
+        <td
+          class="whitespace-nowrap py-4 pl-4 pr-3 text-sm font-medium text-gray-900 sm:pl-6"
+        >
           <div class="h-11 w-11 flex-shrink-0">
-            <img
-              class="h-11 w-11 rounded-full"
-              :src="item.image"
-              alt=""
-            />
+            <img class="h-11 w-11 rounded-full" :src="item.image" alt="" />
           </div>
         </td>
         <td class="whitespace-nowrap px-3 py-4 text-sm text-gray-500">
@@ -35,7 +30,9 @@
         <td class="whitespace-nowrap px-3 py-4 text-sm text-gray-500">
           {{ item.price }}
         </td>
-        <td class="relative whitespace-nowrap py-4 pl-3 pr-4 text-right space-x-2 text-sm font-medium sm:pr-6">
+        <td
+          class="relative whitespace-nowrap py-4 pl-3 pr-4 text-right space-x-2 text-sm font-medium sm:pr-6"
+        >
           <a href="#" class="text-indigo-600 hover:text-indigo-900">
             Edit<span class="sr-only">, {{ item.title }}</span>
           </a>
@@ -53,7 +50,7 @@
 </template>
 
 <script setup>
-import BaseTable from '@/components/table/BaseTable.vue';
+import BaseTable from "@/components/table/BaseTable.vue";
 import TablePagination from "@/components/table/TablePagination.vue";
 import TableTitle from "@/components/table/TableTitle.vue";
 import { useProductStore } from "@/stores/product";
@@ -62,10 +59,10 @@ import { onMounted } from "vue";
 const productStore = useProductStore();
 
 const columns = [
-  { key: 'image', label: 'Image' },
-  { key: 'title', label: 'Title' },
-  { key: 'price', label: 'Price' },
-  { key: 'actions', label: '' }
+  { key: "image", label: "Image" },
+  { key: "title", label: "Title" },
+  { key: "price", label: "Price" },
+  { key: "actions", label: "" },
 ];
 
 onMounted(async () => {
