@@ -1,5 +1,5 @@
 import axios from '@/lib/axios';
-import { createBasePaginationState } from '@/stores/base';
+import { createBasePaginationState } from '@/stores/global/pagination';
 import { defineStore } from 'pinia';
 
 export const useProductStore = defineStore('product', {
