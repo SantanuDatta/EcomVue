@@ -31,7 +31,6 @@ export const useAuthStore = defineStore('auth', {
             this.isAuthenticated = false;
         },
         async fetchUser() {
-            // if (this.processing) return;
             this.processing = true;
             try {
                 const response = await axios.get('/api/user');
