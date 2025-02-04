@@ -6,6 +6,7 @@ export const useAuthStore = defineStore('auth', {
         authUser: null,
         isAuthenticated: false,
         processing: false,
+        isSessionVerified: false,
         authErrors: {},
     }),
     getters: {
@@ -14,6 +15,11 @@ export const useAuthStore = defineStore('auth', {
         errors: (state) => state.authErrors,
     },
     actions: {
+        async verifySession() {
+            if (!this.isAuthenticated && !this.isSessionVerified) {
+                await this.fetchUser();
+            }
+        },
         async clearErrors() {
             this.authErrors = {};
         },
@@ -25,7 +31,7 @@ export const useAuthStore = defineStore('auth', {
             this.isAuthenticated = false;
         },
         async fetchUser() {
-            if (this.processing) return;
+            // if (this.processing) return;
             this.processing = true;
             try {
                 const response = await axios.get('/api/user');
@@ -35,6 +41,7 @@ export const useAuthStore = defineStore('auth', {
                 this.cleanState();
             } finally {
                 this.processing = false;
+                this.isSessionVerified = true;
             }
         },
         async register(data) {
@@ -62,6 +69,7 @@ export const useAuthStore = defineStore('auth', {
                 await this.fetchUser();
                 this.router.replace({ name: 'app.dashboard' });
             } catch (error) {
+                console.log(error);
                 if (error.response?.status === 422) {
                     this.authErrors = error.response.data.errors;
                 }

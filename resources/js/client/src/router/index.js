@@ -105,6 +105,8 @@ const router = createRouter({
 router.beforeEach(async (to, from) => {
     const authStore = useAuthStore();
 
+    await authStore.verifySession()
+
     if (authStore.user && to.meta.guest) {
         return { name: 'app.dashboard' };
     }
