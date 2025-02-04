@@ -1,5 +1,6 @@
 import router from '@/router';
 import { useAuthStore } from '@/stores/auth';
+import { useProgressStore } from '@/stores/global/progress';
 import Axios, { AxiosError } from 'axios';
 
 const axios = Axios.create({
@@ -8,10 +9,26 @@ const axios = Axios.create({
     withXSRFToken: true,
 });
 
+axios.interceptors.request.use(
+    (config) => {
+        useProgressStore().start();
+        return config;
+    },
+    (error) => {
+        useProgressStore().done();
+        return Promise.reject(error);
+    }
+);
+
 axios.interceptors.response.use(
-    (response) => response,
+    (response) => {
+        useProgressStore().done();
+        return response;
+    },
     async (error) => {
+        useProgressStore().done();
         const authStore = useAuthStore();
+
         switch (error instanceof AxiosError && error.response?.status) {
             case 401:
                 authStore.cleanState();

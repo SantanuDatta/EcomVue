@@ -1,4 +1,5 @@
 import { useAuthStore } from '@/stores/auth';
+import { useProgressStore } from '@/stores/global/progress';
 import { createRouter, createWebHistory } from 'vue-router';
 
 const routes = [
@@ -25,7 +26,7 @@ const routes = [
                 meta: {
                     title: 'Products',
                 },
-            }
+            },
         ],
     },
     {
@@ -86,7 +87,7 @@ const routes = [
         component: () => import('@/views/error/500.vue'),
         meta: {
             title: 'Internal Server Error',
-        }
+        },
     },
     {
         path: '/:pathMatch(.*)*',
@@ -105,7 +106,8 @@ const router = createRouter({
 router.beforeEach(async (to, from) => {
     const authStore = useAuthStore();
 
-    await authStore.verifySession()
+    useProgressStore().start();
+    await authStore.verifySession();
 
     if (authStore.user && to.meta.guest) {
         return { name: 'app.dashboard' };
@@ -117,6 +119,8 @@ router.beforeEach(async (to, from) => {
 });
 
 router.afterEach((to) => {
+    useProgressStore().done();
+
     const appName = import.meta.env.VITE_APP_NAME;
     const title = to.meta.title ? `${appName} | ${to.meta.title}` : appName;
     document.title = title;

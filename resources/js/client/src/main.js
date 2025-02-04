@@ -1,4 +1,6 @@
 import './assets/index.css';
+import 'nprogress/nprogress.css';
+import './assets/nprogress.css';
 
 import { createApp, markRaw } from 'vue';
 import { createPinia } from 'pinia';
