@@ -12,5 +12,5 @@ Route::middleware(['auth:sanctum'])->group(function () {
     Route::apiResource('/products', ProductController::class);
 
     Route::post('/logout', [AuthenticatedSessionController::class, 'destroy'])
-    ->name('logout');
+        ->name('logout');
 });

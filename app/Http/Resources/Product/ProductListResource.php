@@ -28,7 +28,7 @@ class ProductListResource extends JsonResource
             'id' => $this->id,
             'title' => $this->title,
             'image' => $this->image,
-            'price' => Number::currency($this->price) ,
+            'price' => Number::currency($this->price),
             'updated_at' => $this->updated_at,
         ];
     }

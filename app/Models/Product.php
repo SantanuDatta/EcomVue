@@ -25,6 +25,10 @@ class Product extends Model
         'price',
     ];
 
+    protected $casts = [
+        'price' => 'int',
+    ];
+
     /**
      * Get the options for generating the slug.
      */
