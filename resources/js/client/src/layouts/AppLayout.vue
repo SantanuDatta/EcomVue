@@ -37,7 +37,7 @@ const navigation = [
   },
   {
     name: "Product",
-    to: { name: "app.products" },
+    to: { name: "product.list" },
     icon: UsersIcon,
     current: false,
   },

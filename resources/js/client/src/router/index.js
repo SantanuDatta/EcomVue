@@ -20,12 +20,26 @@ const routes = [
                 },
             },
             {
-                path: 'products',
-                name: 'app.products',
-                component: () => import('@/views/product/ProductList.vue'),
-                meta: {
-                    title: 'Products',
-                },
+                path: 'product',
+                name: 'app.product',
+                children: [
+                    {
+                        path: 'list',
+                        name: 'product.list',
+                        component: () => import('@/views/product/ProductList.vue'),
+                        meta: {
+                            title: 'Product List',
+                        },
+                    },
+                    {
+                        path: 'create',
+                        name: 'product.create',
+                        component: () => import('@/views/product/ProductCreate.vue'),
+                        meta: {
+                            title: 'Create Product',
+                        },
+                    },
+                ],
             },
         ],
     },
