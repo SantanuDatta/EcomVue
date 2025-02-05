@@ -23,5 +23,19 @@ export const useProductStore = defineStore('product', {
         async goToPage(page) {
             await this.fetchProducts(page);
         },
+
+        async createProduct(data) {
+            try {
+                await axios.post('/api/products', data);
+                this.router.replace({ name: 'product.list' });
+            } catch (error) {
+                if (error.response?.status === 422) {
+                    console.log(
+                        'Validation errors:',
+                        error.response.data.errors
+                    );
+                }
+            }
+        },
     },
 });
