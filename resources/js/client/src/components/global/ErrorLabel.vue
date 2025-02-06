@@ -1,12 +1,3 @@
-<script setup>
-defineProps({
-  errors: {
-    type: Array,
-    default: () => [],
-  },
-});
-</script>
-
 <template>
   <div v-if="errors?.length" class="space-y-1">
     <span
@@ -18,3 +9,12 @@ defineProps({
     </span>
   </div>
 </template>
+
+<script setup>
+defineProps({
+  errors: {
+    type: Array,
+    default: () => [],
+  },
+});
+</script>
