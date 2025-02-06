@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Http\Controllers\Api\V1;
 
+use App\Actions\CreateProduct;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Api\ProductRequest;
 use App\Http\Resources\Product\ProductListResource;
@@ -23,9 +24,9 @@ class ProductController extends Controller
     /**
      * Store a newly created resource in storage.
      */
-    public function store(ProductRequest $request): ProductResource
+    public function store(ProductRequest $request, CreateProduct $product): ProductResource
     {
-        return new ProductResource(Product::create($request->validated()));
+        return $product($request);
     }
 
     /**
