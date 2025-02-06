@@ -1,29 +1,3 @@
-<script setup>
-import ErrorLabel from "@/components/auth/ErrorLabel.vue";
-import PrimaryButton from "@/components/auth/PrimaryButton.vue";
-import TextInput from "@/components/auth/TextInput.vue";
-import GuestLayout from "@/layouts/GuestLayout.vue";
-import { useAuthStore } from "@/stores/auth";
-import { onMounted, onUnmounted, ref } from "vue";
-
-const authStore = useAuthStore();
-
-const form = ref({
-  name: "",
-  email: "",
-  password: "",
-  password_confirmation: "",
-});
-
-onMounted(() => {
-  authStore.clearErrors();
-});
-
-onUnmounted(() => {
-  authStore.clearErrors();
-});
-</script>
-
 <template>
   <GuestLayout title="Register for an account">
     <form
@@ -115,7 +89,17 @@ onUnmounted(() => {
       </div>
 
       <div>
-        <PrimaryButton :processing="authStore.processing">
+        <PrimaryButton
+          :processing="authStore.processing"
+          :class="[
+            'flex w-full justify-center items-center rounded-md bg-indigo-600 px-3 py-1.5 text-sm font-semibold leading-6 text-white shadow-xs hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600',
+            $attrs.class,
+            {
+              'opacity-80 cursor-not-allowed': processing,
+              'cursor-pointer': !processing,
+            },
+          ]"
+        >
           Register
         </PrimaryButton>
       </div>
@@ -131,3 +115,29 @@ onUnmounted(() => {
     </p>
   </GuestLayout>
 </template>
+
+<script setup>
+import ErrorLabel from "@/components/global/ErrorLabel.vue";
+import PrimaryButton from "@/components/global/PrimaryButton.vue";
+import TextInput from "@/components/global/TextInput.vue";
+import GuestLayout from "@/layouts/GuestLayout.vue";
+import { useAuthStore } from "@/stores/auth";
+import { onMounted, onUnmounted, ref } from "vue";
+
+const authStore = useAuthStore();
+
+const form = ref({
+  name: "",
+  email: "",
+  password: "",
+  password_confirmation: "",
+});
+
+onMounted(() => {
+  authStore.clearErrors();
+});
+
+onUnmounted(() => {
+  authStore.clearErrors();
+});
+</script>

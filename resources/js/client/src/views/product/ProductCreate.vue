@@ -17,33 +17,27 @@
       >
         <div class="grid md:grid-flow-col grid-rows-1 gap-4">
           <div class="col-span-1 md:col-span-6 space-y-2">
-            <label
-              for="title"
-              class="block text-sm font-medium leading-6 text-gray-900"
-              >Product Name</label
-            >
-            <input
+            <TextLabel for="title">Product Name</TextLabel>
+            <TextInput
               id="title"
               type="text"
               v-model="form.title"
-              class="block w-full rounded-md border-0 py-1.5 px-2 text-gray-900 shadow-xs ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
+              :class="{
+                'border-red-500 focus:ring-red-500': productStore.errors.title,
+              }"
             />
-            <label
-              for="price"
-              class="block text-sm font-medium leading-6 text-gray-900"
-              >Price</label
-            >
-            <input
+            <ErrorLabel :errors="productStore.errors.title" />
+            <TextLabel for="price">Price</TextLabel>
+            <TextInput
               id="price"
               type="text"
               v-model="form.price"
-              class="block w-full rounded-md border-0 py-1.5 px-2 text-gray-900 shadow-xs ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
+              :class="{
+                'border-red-500 focus:ring-red-500': productStore.errors.price,
+              }"
             />
-            <label
-              for="description"
-              class="block text-sm font-medium leading-6 text-gray-900"
-              >Description</label
-            >
+            <ErrorLabel :errors="productStore.errors.price" />
+            <TextLabel for="description">Product Description</TextLabel>
             <textarea
               name="description"
               id="description"
@@ -53,11 +47,7 @@
             />
           </div>
           <div class="col-span-1 space-y-2">
-            <label
-              for="file-upload"
-              class="block text-sm font-medium leading-6 text-gray-900"
-              >Upload Image</label
-            >
+            <TextLabel for="file-upload">Upload Image</TextLabel>
             <div
               class="mt-2 flex justify-center rounded-lg border border-dashed border-gray-900/25 px-6 py-10"
             >
@@ -86,14 +76,22 @@
                 <p class="text-xs/5 text-gray-600">PNG, JPG, GIF up to 10MB</p>
               </div>
             </div>
+            <ErrorLabel :errors="productStore.errors.image" />
           </div>
         </div>
         <div class="grid place-items-end w-full">
-          <button
-            class="block rounded-md bg-indigo-600 px-3 py-2 text-center text-sm font-semibold text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
-          >
-            Add New Product
-          </button>
+          <PrimaryButton
+            :processing="productStore.processing"
+            :class="[
+              'block rounded-md bg-indigo-600 px-3 py-2 text-center text-sm font-semibold text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600',
+              $attrs.class,
+              {
+                'opacity-80 cursor-not-allowed': processing,
+                'cursor-pointer': !processing,
+              },
+            ]"
+            >Add New Product
+          </PrimaryButton>
         </div>
       </form>
     </Card>
@@ -103,10 +101,14 @@
 <script setup>
 import PageHeader from "@/components/global/PageHeader.vue";
 import PageButton from "@/components/global/PageButton.vue";
+import TextInput from "@/components/global/TextInput.vue";
+import TextLabel from "@/components/global/TextLabel.vue";
+import ErrorLabel from "@/components/global/ErrorLabel.vue";
+import PrimaryButton from "@/components/global/PrimaryButton.vue";
 import Card from "@/components/global/Card.vue";
 import { PhotoIcon } from "@heroicons/vue/24/solid";
 import { useProductStore } from "@/stores/product";
-import { ref } from "vue";
+import { onMounted, onUnmounted, ref } from "vue";
 
 const productStore = useProductStore();
 
@@ -118,6 +120,14 @@ const form = ref({
 });
 
 const handleFileUpload = (event) => {
-    form.value.image = event.target.files[0];
+  form.value.image = event.target.files[0];
 };
+
+onMounted(() => {
+  productStore.clearErrors();
+});
+
+onUnmounted(() => {
+  productStore.clearErrors();
+});
 </script>

@@ -6,9 +6,18 @@ export const useProductStore = defineStore('product', {
     state: () => ({
         products: [],
         ...createBasePaginationState(),
+        productErrors: {},
+        processing: false,
     }),
 
+    getters: {
+        errors: (state) => state.productErrors,
+    },
+
     actions: {
+        async clearErrors() {
+            this.productErrors = {};
+        },
         async fetchProducts(page = 1) {
             try {
                 const response = await axios.get(`/api/products?page=${page}`);
@@ -25,6 +34,8 @@ export const useProductStore = defineStore('product', {
         },
 
         async createProduct(product) {
+            this.clearErrors();
+            this.processing = true;
             try {
                 if (product.image instanceof File) {
                     const form = new FormData();
@@ -34,16 +45,14 @@ export const useProductStore = defineStore('product', {
                     form.append('price', product.price);
                     product = form;
                 }
-
                 await axios.post('/api/products', product);
                 this.router.replace({ name: 'product.list' });
             } catch (error) {
                 if (error.response?.status === 422) {
-                    console.log(
-                        'Validation errors:',
-                        error.response.data.errors
-                    );
+                    this.productErrors = error.response.data.errors;
                 }
+            } finally {
+                this.processing = false;
             }
         },
     },

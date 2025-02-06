@@ -1,27 +1,3 @@
-<script setup>
-import ErrorLabel from "@/components/auth/ErrorLabel.vue";
-import PrimaryButton from "@/components/auth/PrimaryButton.vue";
-import TextInput from "@/components/auth/TextInput.vue";
-import GuestLayout from "@/layouts/GuestLayout.vue";
-import { useAuthStore } from "@/stores/auth";
-import { onMounted, onUnmounted, ref } from "vue";
-
-const authStore = useAuthStore();
-
-const form = ref({
-  email: "",
-  password: "",
-});
-
-onMounted(() => {
-  authStore.clearErrors();
-});
-
-onUnmounted(() => {
-  authStore.clearErrors();
-});
-</script>
-
 <template>
   <GuestLayout title="Sign in to your account">
     <form
@@ -30,11 +6,7 @@ onUnmounted(() => {
       @submit.prevent="authStore.login(form)"
     >
       <div>
-        <label
-          for="email"
-          class="block text-sm font-medium leading-6 text-gray-900"
-          >Email address</label
-        >
+        <TextLabel for="email">Email</TextLabel>
         <div class="mt-2">
           <TextInput
             id="email"
@@ -52,11 +24,7 @@ onUnmounted(() => {
 
       <div>
         <div class="flex items-center justify-between">
-          <label
-            for="password"
-            class="block text-sm font-medium leading-6 text-gray-900"
-            >Password</label
-          >
+          <TextLabel for="password">Password</TextLabel>
           <div class="text-sm">
             <RouterLink
               :to="{ name: 'forgetPassword' }"
@@ -81,7 +49,17 @@ onUnmounted(() => {
       </div>
 
       <div>
-        <PrimaryButton :processing="authStore.processing">
+        <PrimaryButton
+          :processing="authStore.processing"
+          :class="[
+            'flex w-full justify-center items-center rounded-md bg-indigo-600 px-3 py-1.5 text-sm font-semibold leading-6 text-white shadow-xs hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600',
+            $attrs.class,
+            {
+              'opacity-80 cursor-not-allowed': processing,
+              'cursor-pointer': !processing,
+            },
+          ]"
+        >
           Sign in
         </PrimaryButton>
       </div>
@@ -98,3 +76,28 @@ onUnmounted(() => {
     </p>
   </GuestLayout>
 </template>
+
+<script setup>
+import GuestLayout from "@/layouts/GuestLayout.vue";
+import TextLabel from "@/components/global/TextLabel.vue";
+import TextInput from "@/components/global/TextInput.vue";
+import ErrorLabel from "@/components/global/ErrorLabel.vue";
+import PrimaryButton from "@/components/global/PrimaryButton.vue";
+import { useAuthStore } from "@/stores/auth";
+import { onMounted, onUnmounted, ref } from "vue";
+
+const authStore = useAuthStore();
+
+const form = ref({
+  email: "",
+  password: "",
+});
+
+onMounted(() => {
+  authStore.clearErrors();
+});
+
+onUnmounted(() => {
+  authStore.clearErrors();
+});
+</script>
