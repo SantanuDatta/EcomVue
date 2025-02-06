@@ -76,7 +76,8 @@
                       id="file-upload"
                       name="image"
                       type="file"
-                      @change="(file) => (form.image = file)"
+                      @change="handleFileUpload"
+                      accept="image/*"
                       class="sr-only"
                     />
                   </label>
@@ -112,7 +113,11 @@ const productStore = useProductStore();
 const form = ref({
   title: "",
   price: "",
-  image: "",
+  image: null,
   description: "",
 });
+
+const handleFileUpload = (event) => {
+    form.value.image = event.target.files[0];
+};
 </script>

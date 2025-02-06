@@ -24,9 +24,18 @@ export const useProductStore = defineStore('product', {
             await this.fetchProducts(page);
         },
 
-        async createProduct(data) {
+        async createProduct(product) {
             try {
-                await axios.post('/api/products', data);
+                if (product.image instanceof File) {
+                    const form = new FormData();
+                    form.append('title', product.title);
+                    form.append('image', product.image);
+                    form.append('description', product.description);
+                    form.append('price', product.price);
+                    product = form;
+                }
+
+                await axios.post('/api/products', product);
                 this.router.replace({ name: 'product.list' });
             } catch (error) {
                 if (error.response?.status === 422) {

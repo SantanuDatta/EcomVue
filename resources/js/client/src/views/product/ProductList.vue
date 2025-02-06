@@ -14,7 +14,13 @@
           class="whitespace-nowrap py-4 pl-4 pr-3 text-sm font-medium text-gray-900 sm:pl-6"
         >
           <div class="h-11 w-11 flex-shrink-0">
-            <img class="h-11 w-11 rounded-full" :src="item.image" alt="" />
+            <img
+              v-if="item.image"
+              class="h-11 w-11 rounded-full"
+              :src="item.image"
+              :alt="item.title"
+            />
+            <PhotoIcon v-else class="h-11 w-11 rounded-full text-gray-300" />
           </div>
         </td>
         <td class="whitespace-nowrap px-3 py-4 text-sm text-gray-500">
@@ -49,6 +55,7 @@ import PageHeader from "@/components/global/PageHeader.vue";
 import PageButton from "@/components/global/PageButton.vue";
 import { useProductStore } from "@/stores/product";
 import { onMounted } from "vue";
+import { PhotoIcon } from "@heroicons/vue/24/outline";
 
 const productStore = useProductStore();
 
