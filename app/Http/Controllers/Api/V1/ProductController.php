@@ -4,12 +4,12 @@ declare(strict_types=1);
 
 namespace App\Http\Controllers\Api\V1;
 
-use App\Actions\CreateProduct;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Api\ProductRequest;
 use App\Http\Resources\Product\ProductListResource;
 use App\Http\Resources\Product\ProductResource;
 use App\Models\Product;
+use App\Services\ImageUploadService;
 
 class ProductController extends Controller
 {
@@ -24,9 +24,15 @@ class ProductController extends Controller
     /**
      * Store a newly created resource in storage.
      */
-    public function store(ProductRequest $request, CreateProduct $product): ProductResource
+    public function store(ProductRequest $request, ImageUploadService $imageUploadService): ProductResource
     {
-        return $product($request);
+        $validated = $request->validated();
+        $imageData = $imageUploadService->handleProductImage(
+            $request->file('image')
+        );
+        $product = Product::create(array_merge($validated, $imageData));
+
+        return new ProductResource($product);
     }
 
     /**
