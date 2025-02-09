@@ -7,7 +7,7 @@ const props = defineProps({
   src: {
     type: String,
     default:
-      "https://tailwindui.com/plus/img/logos/mark.svg?color=indigo&shade=600",
+      "https://tailwindui.com/plus-assets/img/logos/mark.svg?color=indigo&shade=500",
   },
   alt: {
     type: String,
