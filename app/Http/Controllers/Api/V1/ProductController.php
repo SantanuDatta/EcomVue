@@ -10,6 +10,7 @@ use App\Http\Resources\Product\ProductListResource;
 use App\Http\Resources\Product\ProductResource;
 use App\Models\Product;
 use App\Services\ImageUploadService;
+use Illuminate\Support\Facades\Storage;
 
 class ProductController extends Controller
 {
@@ -46,9 +47,20 @@ class ProductController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(ProductRequest $request, Product $product): ProductResource
+    public function update(ProductRequest $request, Product $product, ImageUploadService $imageUploadService): ProductResource
     {
-        $product->update($request->validated());
+        $validated = $request->validated();
+
+        if ($request->hasFile('image')) {
+            if ($product->image) {
+                Storage::disk('public')->delete($product->image);
+            }
+
+            $imageData = $imageUploadService->handleProductImage($request->file('image'));
+            $validated = array_merge($validated, $imageData);
+        }
+
+        $product->update($validated);
 
         return new ProductResource($product);
     }

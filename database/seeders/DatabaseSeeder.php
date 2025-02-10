@@ -27,6 +27,6 @@ class DatabaseSeeder extends Seeder
             'is_admin' => true,
         ]);
 
-        Product::factory(30)->recycle($admin)->create();
+        Product::factory(30)->withProductImage()->recycle($admin)->create();
     }
 }

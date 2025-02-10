@@ -55,5 +55,42 @@ export const useProductStore = defineStore('product', {
                 this.processing = false;
             }
         },
+
+        async fetchProduct(id) {
+            try {
+                const response = await axios.get(`/api/products/${id}`);
+                return response.data.data || response.data;
+            } catch (error) {
+                console.error('Error fetching product:', error);
+                throw error;
+            }
+        },
+
+        async updateProduct(product, id) {
+            this.clearErrors();
+            this.processing = true;
+            try {
+                if (product.image instanceof File) {
+                    const formData = new FormData();
+                    formData.append('_method', 'PATCH');
+                    formData.append('title', product.title);
+                    formData.append('price', product.price);
+                    formData.append('description', product.description);
+                    formData.append('image', product.image);
+
+                    await axios.post(`/api/products/${id}`, formData);
+                } else {
+                    await axios.patch(`/api/products/${id}`, product);
+                }
+
+                this.router.replace({ name: 'product.list' });
+            } catch (error) {
+                if (error.response?.status === 422) {
+                    this.productErrors = error.response.data.errors;
+                }
+            } finally {
+                this.processing = false;
+            }
+        },
     },
 });

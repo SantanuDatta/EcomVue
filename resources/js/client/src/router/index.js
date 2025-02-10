@@ -39,6 +39,14 @@ const routes = [
                             title: 'Create Product',
                         },
                     },
+                    {
+                        path: ':id/edit',
+                        name: 'product.edit',
+                        component: () => import('@/views/product/ProductEdit.vue'),
+                        meta: {
+                            title: 'Edit Product',
+                        }
+                    }
                 ],
             },
         ],

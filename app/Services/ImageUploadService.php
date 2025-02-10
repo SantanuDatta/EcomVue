@@ -13,7 +13,7 @@ class ImageUploadService
      */
     public function handleProductImage(?UploadedFile $file): array
     {
-        if (!$file instanceof \Illuminate\Http\UploadedFile) {
+        if (! $file instanceof UploadedFile) {
             return [];
         }
 
