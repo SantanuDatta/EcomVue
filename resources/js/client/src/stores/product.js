@@ -92,5 +92,19 @@ export const useProductStore = defineStore('product', {
                 this.processing = false;
             }
         },
+
+        async deleteProduct(id) {
+            try {
+                await axios.delete(`/api/products/${id}`);
+                // Check if last item on current page
+                if (this.products.length === 1 && this.meta.current_page > 1) {
+                    await this.fetchProducts(this.meta.current_page - 1);
+                } else {
+                    await this.fetchProducts(this.meta.current_page);
+                }
+            } catch (error) {
+                console.error('Error deleting product:', error);
+            }
+        },
     },
 });

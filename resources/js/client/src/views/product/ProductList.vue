@@ -38,16 +38,27 @@
           >
             Edit<span class="sr-only">, {{ item.title }}</span>
           </RouterLink>
-          <a href="#" class="text-red-600 hover:text-red-900">
+          <button
+            type="button"
+            @click="openDeleteModal(item)"
+            class="text-red-600 hover:text-red-900 cursor-pointer"
+          >
             Delete<span class="sr-only">, {{ item.title }}</span>
-          </a>
+          </button>
         </td>
       </template>
-
       <template #pagination>
         <TablePagination :store="productStore" />
       </template>
     </BaseTable>
+    <DeleteModal
+      :is-open="isDeleteModalOpen"
+      title="Delete Product"
+      message="Are you sure you want to delete this product?"
+      @close="closeDeleteModal"
+      @cancel="closeDeleteModal"
+      @confirm="handleDeleteConfirm"
+    />
   </div>
 </template>
 
@@ -56,11 +67,16 @@ import BaseTable from "@/components/table/BaseTable.vue";
 import TablePagination from "@/components/table/TablePagination.vue";
 import PageHeader from "@/components/global/PageHeader.vue";
 import PageButton from "@/components/global/PageButton.vue";
+import DeleteModal from "@/components/global/Modal.vue";
 import { useProductStore } from "@/stores/product";
-import { onMounted } from "vue";
+import { onMounted, ref } from "vue";
 import { PhotoIcon } from "@heroicons/vue/24/outline";
 
 const productStore = useProductStore();
+const isDeleteModalOpen = ref(false);
+const selectedProduct = ref(null);
+const isDeleting = ref(false);
+const errorMessage = ref("");
 
 const columns = [
   { key: "image", label: "Image" },
@@ -72,4 +88,30 @@ const columns = [
 onMounted(async () => {
   await productStore.fetchProducts();
 });
+
+function openDeleteModal(product) {
+  selectedProduct.value = product;
+  isDeleteModalOpen.value = true;
+  errorMessage.value = "";
+}
+
+function closeDeleteModal() {
+  isDeleteModalOpen.value = false;
+  selectedProduct.value = null;
+  errorMessage.value = "";
+}
+
+async function handleDeleteConfirm() {
+  if (!selectedProduct.value) return;
+
+  isDeleting.value = true;
+  try {
+    await productStore.deleteProduct(selectedProduct.value.id);
+    closeDeleteModal();
+  } catch (error) {
+    errorMessage.value = error.message || "Error deleting product";
+  } finally {
+    isDeleting.value = false;
+  }
+}
 </script>

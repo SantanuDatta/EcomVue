@@ -140,7 +140,7 @@ onMounted(async () => {
   }
 });
 
-onUnmounted(async() => {
+onUnmounted(async () => {
   productStore.clearErrors();
   if (form.value.image?.preview) {
     URL.revokeObjectURL(form.value.image.preview);

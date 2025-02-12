@@ -68,9 +68,13 @@ class ProductController extends Controller
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(Product $product)
+    public function destroy(Product $product, ImageUploadService $imageUploadService)
     {
-        $product->delete();
+        if ($product->image) {
+            $imageUploadService->deleteProductImage($product->image);
+        }
+
+        $product->forceDelete();
 
         return response()->noContent();
     }

@@ -46,6 +46,10 @@ const routes = [
                         meta: {
                             title: 'Edit Product',
                         }
+                    },
+                    {
+                        path: ':id/delete',
+                        name: 'product.delete',
                     }
                 ],
             },
