@@ -10,6 +10,8 @@ use App\Http\Resources\Product\ProductListResource;
 use App\Http\Resources\Product\ProductResource;
 use App\Models\Product;
 use App\Services\ImageUploadService;
+use Illuminate\Http\Resources\Json\ResourceCollection;
+use Illuminate\Http\Response;
 use Illuminate\Support\Facades\Storage;
 
 class ProductController extends Controller
@@ -17,7 +19,7 @@ class ProductController extends Controller
     /**
      * Display a listing of the resource.
      */
-    public function index()
+    public function index(): ResourceCollection
     {
         return ProductListResource::collection(Product::query()->paginate(10));
     }
@@ -68,7 +70,7 @@ class ProductController extends Controller
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(Product $product, ImageUploadService $imageUploadService)
+    public function destroy(Product $product, ImageUploadService $imageUploadService): Response
     {
         if ($product->image) {
             $imageUploadService->deleteProductImage($product->image);

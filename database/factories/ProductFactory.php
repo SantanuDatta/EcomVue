@@ -30,6 +30,11 @@ class ProductFactory extends Factory
         ];
     }
 
+    /**
+     * Configure the factory to add a product image after creating the product.
+     *
+     * @return Factory<Product>
+     */
     public function withProductImage(): Factory|self
     {
         return $this->afterCreating(function (Product $product): void {

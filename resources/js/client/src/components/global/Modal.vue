@@ -1,4 +1,3 @@
-<!-- GlobalModal.vue -->
 <template>
   <TransitionRoot appear :show="isOpen" as="template">
     <Dialog as="div" @close="close" class="relative z-10">

@@ -4,14 +4,19 @@ declare(strict_types=1);
 
 namespace App\Services;
 
-use App\Models\Product;
 use Illuminate\Http\UploadedFile;
 use Illuminate\Support\Facades\Storage;
 
 class ImageUploadService
 {
     /**
-     * Create a new class ImageUploadService.
+     * Handle the product image upload.
+     *
+     * @param  UploadedFile|null  $file  The uploaded file.
+     * @return array<string, string|int|null> Returns an associative array with the following keys:
+     *                                        - 'image': The path to the stored image (string).
+     *                                        - 'image_mime': The MIME type of the image (string).
+     *                                        - 'image_size': The size of the image in bytes (int).
      */
     public function handleProductImage(?UploadedFile $file): array
     {
