@@ -3,11 +3,7 @@ import { computed } from 'vue';
 export function usePagination(store) {
     const paginationLinks = computed(() => {
         return (
-            store.meta.links?.filter(
-                (link) =>
-                    !link.label.includes('Previous') &&
-                    !link.label.includes('Next')
-            ) ?? []
+            store.meta.links?.filter((link) => !link.label.includes('Previous') && !link.label.includes('Next')) ?? []
         );
     });
 

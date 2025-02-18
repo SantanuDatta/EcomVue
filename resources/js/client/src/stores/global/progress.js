@@ -1,20 +1,20 @@
 import { defineStore } from 'pinia';
 import { useNProgress } from '@vueuse/integrations/useNProgress';
 
-const progress = useNProgress()
+const progress = useNProgress();
 
 export const useProgressStore = defineStore('progress', {
     state: () => ({
-        isLoading: false
+        isLoading: false,
     }),
     actions: {
         start() {
             this.isLoading = true;
-            progress.start()
+            progress.start();
         },
         done() {
             this.isLoading = false;
-            progress.done()
-        }
-    }
+            progress.done();
+        },
+    },
 });

@@ -45,8 +45,8 @@ const routes = [
                         component: () => import('@/views/product/ProductEdit.vue'),
                         meta: {
                             title: 'Edit Product',
-                        }
-                    }
+                        },
+                    },
                 ],
             },
         ],
