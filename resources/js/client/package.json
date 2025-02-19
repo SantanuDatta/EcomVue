@@ -8,8 +8,10 @@
         "build": "vite build",
         "preview": "vite preview",
         "lint": "eslint . --fix",
-        "format": "prettier --write .",
-        "format:check": "prettier --check ."
+        "refactor": "prettier --write .",
+        "test:lint:check": "eslint . --fix-dry-run",
+        "test:refactor:check": "prettier --check .",
+        "test": "npm run test:lint:check && npm run test:refactor:check"
     },
     "dependencies": {
         "@headlessui/vue": "^1.7.23",

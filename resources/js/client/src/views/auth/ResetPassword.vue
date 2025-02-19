@@ -1,9 +1,3 @@
-<script setup>
-import PrimaryButton from '@/components/global/PrimaryButton.vue';
-import TextInput from '@/components/global/TextInput.vue';
-import GuestLayout from '@/layouts/GuestLayout.vue';
-</script>
-
 <template>
     <GuestLayout title="Set new password">
         <form class="space-y-6" method="POST">
@@ -56,3 +50,9 @@ import GuestLayout from '@/layouts/GuestLayout.vue';
         </form>
     </GuestLayout>
 </template>
+
+<script setup>
+import PrimaryButton from '@/components/global/PrimaryButton.vue';
+import TextInput from '@/components/global/TextInput.vue';
+import GuestLayout from '@/layouts/GuestLayout.vue';
+</script>
