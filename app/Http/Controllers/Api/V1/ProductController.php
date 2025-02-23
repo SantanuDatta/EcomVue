@@ -4,20 +4,22 @@ declare(strict_types=1);
 
 namespace App\Http\Controllers\Api\V1;
 
+use App\Actions\CreateImage;
+use App\Actions\DeleteImage;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Api\ProductRequest;
 use App\Http\Resources\Product\ProductListResource;
 use App\Http\Resources\Product\ProductResource;
 use App\Models\Product;
-use App\Services\ImageUploadService;
 use Illuminate\Http\Resources\Json\ResourceCollection;
 use Illuminate\Http\Response;
-use Illuminate\Support\Facades\Storage;
 
 class ProductController extends Controller
 {
     /**
      * Display a listing of the resource.
+     *
+     * @return ResourceCollection<ProductListResource>
      */
     public function index(): ResourceCollection
     {
@@ -27,12 +29,11 @@ class ProductController extends Controller
     /**
      * Store a newly created resource in storage.
      */
-    public function store(ProductRequest $request, ImageUploadService $imageUploadService): ProductResource
+    public function store(ProductRequest $request, CreateImage $createImage): ProductResource
     {
         $validated = $request->validated();
-        $imageData = $imageUploadService->handleProductImage(
-            $request->file('image')
-        );
+        /** @var array{image?: string, image_mime?: string, image_size?: int} $imageData */
+        $imageData = $createImage->handle($request->file('image'));
         $product = Product::create(array_merge($validated, $imageData));
 
         return new ProductResource($product);
@@ -49,33 +50,29 @@ class ProductController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(ProductRequest $request, Product $product, ImageUploadService $imageUploadService): ProductResource
+    public function update(ProductRequest $request, Product $product, CreateImage $createImage,
+        DeleteImage $deleteImage): ProductResource
     {
         $validated = $request->validated();
 
         if ($request->hasFile('image')) {
-            if ($product->image) {
-                Storage::disk('public')->delete($product->image);
-            }
-
-            $imageData = $imageUploadService->handleProductImage($request->file('image'));
+            $deleteImage->handle($product->image);
+            /** @var array{image?: string, image_mime?: string, image_size?: int} $imageData */
+            $imageData = $createImage->handle($request->file('image'));
             $validated = array_merge($validated, $imageData);
         }
 
         $product->update($validated);
 
-        return new ProductResource($product);
+        return new ProductResource($product->refresh());
     }
 
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(Product $product, ImageUploadService $imageUploadService): Response
+    public function destroy(Product $product, DeleteImage $deleteImage): Response
     {
-        if ($product->image) {
-            $imageUploadService->deleteProductImage($product->image);
-        }
-
+        $deleteImage->handle($product->image);
         $product->forceDelete();
 
         return response()->noContent();
