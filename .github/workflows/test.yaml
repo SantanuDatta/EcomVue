@@ -1,0 +1,70 @@
+name: Tests
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  ci:
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: true
+      matrix:
+        php: [8.4]
+
+    name: Tests
+
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v4
+
+      # Cache Composer Dependencies
+      - name: Cache Dependencies PHP
+        id: php-cache
+        uses: actions/cache@v4
+        with:
+          path: vendor
+          key: dependencies-php-composer-${{ hashFiles('composer.lock') }}
+
+      # Setup PHP
+      - name: Setup PHP
+        uses: shivammathur/setup-php@v2
+        with:
+          php-version: ${{ matrix.php }}
+          extensions: json, dom, curl, libxml, mbstring, zip
+          tools: composer:v2
+          coverage: xdebug
+
+      # Install PHP Dependencies
+      - name: Install PHP dependencies
+        if: steps.php-cache.outputs.cache-hit != 'true'
+        run: composer install --no-interaction --no-progress --ansi
+
+      # Prepare Laravel Environment
+      - name: Prepare Laravel
+        run: |
+          cp .env.example .env
+          php artisan key:generate
+
+      # Set up Node.js for Vue
+      - name: Set up Node.js
+        uses: actions/setup-node@v2
+        with:
+          node-version: '22.x'
+          cache: 'npm'
+          cache-dependency-path: resources/js/client/package-lock.json
+
+      # Install Vue Dependencies
+      - name: Install Vue Dependencies
+        working-directory: resources/js/client
+        run: npm ci
+
+      # Build Vue Application
+      - name: Build Vue Application
+        working-directory: resources/js/client
+        run: npm run build
+
+      # Run Laravel Tests
+      - name: Run Tests
+        run: composer test
