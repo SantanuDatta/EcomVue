@@ -1,4 +1,4 @@
-import axios from '@/lib/axios';
+import axios, { api } from '@/lib/axios';
 import { defineStore } from 'pinia';
 
 export const useAuthStore = defineStore('auth', {
@@ -32,7 +32,7 @@ export const useAuthStore = defineStore('auth', {
         },
         async fetchUser() {
             try {
-                const response = await axios.get('/api/user');
+                const response = await axios.get(api('/user'));
                 this.authUser = response.data;
                 this.isAuthenticated = true;
             } catch (error) {
@@ -47,7 +47,7 @@ export const useAuthStore = defineStore('auth', {
             this.processing = true;
             try {
                 await this.fetchCsrfCookie();
-                await axios.post('/register', data);
+                await axios.post(api('/register'), data);
                 await this.fetchUser();
                 this.router.replace({ name: 'app.dashboard' });
             } catch (error) {
@@ -63,7 +63,7 @@ export const useAuthStore = defineStore('auth', {
             this.processing = true;
             try {
                 await this.fetchCsrfCookie();
-                await axios.post('/login', data);
+                await axios.post(api('/login'), data);
                 await this.fetchUser();
                 this.router.replace({ name: 'app.dashboard' });
             } catch (error) {
@@ -77,7 +77,7 @@ export const useAuthStore = defineStore('auth', {
         },
         async logout() {
             try {
-                await axios.post('/api/logout');
+                await axios.post(api('/logout'));
             } finally {
                 this.cleanState();
                 this.clearErrors();

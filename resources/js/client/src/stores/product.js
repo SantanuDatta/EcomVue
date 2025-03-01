@@ -1,4 +1,4 @@
-import axios from '@/lib/axios';
+import axios, { api } from '@/lib/axios';
 import { createBasePaginationState } from '@/stores/global/pagination';
 import { defineStore } from 'pinia';
 
@@ -20,7 +20,7 @@ export const useProductStore = defineStore('product', {
         },
         async fetchProducts(page = 1) {
             try {
-                const response = await axios.get(`/api/products?page=${page}`);
+                const response = await axios.get(api(`/products?page=${page}`));
                 this.products = response.data.data;
                 this.meta = response.data.meta;
                 this.links = response.data.links;
@@ -45,7 +45,7 @@ export const useProductStore = defineStore('product', {
                     form.append('price', product.price);
                     product = form;
                 }
-                await axios.post('/api/products', product);
+                await axios.post(api('/products'), product);
                 this.router.replace({ name: 'product.list' });
             } catch (error) {
                 if (error.response?.status === 422) {
@@ -58,7 +58,7 @@ export const useProductStore = defineStore('product', {
 
         async fetchProduct(id) {
             try {
-                const response = await axios.get(`/api/products/${id}`);
+                const response = await axios.get(api(`/products/${id}`));
                 return response.data.data || response.data;
             } catch (error) {
                 console.error('Error fetching product:', error);
@@ -78,9 +78,9 @@ export const useProductStore = defineStore('product', {
                     formData.append('description', product.description);
                     formData.append('image', product.image);
 
-                    await axios.post(`/api/products/${id}`, formData);
+                    await axios.post(api(`/products/${id}`), formData);
                 } else {
-                    await axios.patch(`/api/products/${id}`, product);
+                    await axios.patch(api(`/products/${id}`), product);
                 }
 
                 this.router.replace({ name: 'product.list' });
@@ -95,7 +95,7 @@ export const useProductStore = defineStore('product', {
 
         async deleteProduct(id) {
             try {
-                await axios.delete(`/api/products/${id}`);
+                await axios.delete(api(`/products/${id}`));
                 if (this.products.length === 1 && this.meta.current_page > 1) {
                     await this.fetchProducts(this.meta.current_page - 1);
                 } else {

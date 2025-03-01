@@ -3,8 +3,17 @@ import { useAuthStore } from '@/stores/auth';
 import { useProgressStore } from '@/stores/global/progress';
 import Axios, { AxiosError } from 'axios';
 
-const axios = Axios.create({
+export const apiConfig = {
     baseURL: import.meta.env.VITE_API_BASE_URL,
+    version: import.meta.env.VITE_API_VERSION,
+};
+
+export const api = (path) => {
+    return `/api/${apiConfig.version}${path.startsWith('/') ? path : '/' + path}`;
+};
+
+const axios = Axios.create({
+    baseURL: apiConfig.baseURL,
     withCredentials: true,
     withXSRFToken: true,
 });
