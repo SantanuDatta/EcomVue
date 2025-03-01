@@ -1,5 +1,7 @@
+# Handle line endings for all text files
 * text=auto eol=lf
 
+# Language specific settings
 *.html diff=html
 *.md diff=markdown
 *.blade.php linguist-language=PHP diff=html
@@ -8,6 +10,11 @@
 *.php       linguist-language=PHP
 *.vue       linguist-language=Vue diff=html
 
+# Exclude vendor and node_modules from Linguist analysis
+/vendor/** linguist-vendored
+/node_modules/** linguist-vendored
+
+# Exclude from exports
 /.github        export-ignore
 CHANGELOG.md    export-ignore
 .styleci.yml    export-ignore
