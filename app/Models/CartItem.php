@@ -38,3 +38,4 @@ class CartItem extends Model
         return $this->product ? $this->product->price * $this->quantity : null;
     }
 }
+    
