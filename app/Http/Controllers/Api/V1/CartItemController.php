@@ -5,22 +5,27 @@ declare(strict_types=1);
 namespace App\Http\Controllers\Api\V1;
 
 use App\Http\Controllers\Controller;
-use Illuminate\Http\Request;
+use App\Http\Requests\Api\CartItemRequest;
+use App\Http\Resources\CartItem\CartItemResource;
+use App\Models\CartItem;
+use Illuminate\Http\Resources\Json\ResourceCollection;
 
 class CartItemController extends Controller
 {
     /**
      * Display a listing of the resource.
      */
-    public function index(): void
+    public function index(): ResourceCollection
     {
-        //
+        $cartItems = CartItem::with('product')->where('user_id', auth()->user()->id)->get();
+
+        return CartItemResource::collection($cartItems);
     }
 
     /**
      * Store a newly created resource in storage.
      */
-    public function store(Request $request): void
+    public function store(CartItemRequest $request): void
     {
         //
     }
@@ -28,7 +33,7 @@ class CartItemController extends Controller
     /**
      * Display the specified resource.
      */
-    public function show(string $id): void
+    public function show(CartItem $cartItem): void
     {
         //
     }
@@ -36,7 +41,7 @@ class CartItemController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, string $id): void
+    public function update(CartItemRequest $request, CartItem $cartItem): void
     {
         //
     }
@@ -44,7 +49,7 @@ class CartItemController extends Controller
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(string $id): void
+    public function destroy(CartItem $cartItem): void
     {
         //
     }

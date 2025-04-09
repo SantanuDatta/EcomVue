@@ -13,8 +13,9 @@ use Spatie\Sluggable\SlugOptions;
 
 class Product extends Model
 {
-    /** @use HasFactory<\Database\Factories\ProductFactory> */
-    use HasFactory, HasSlug, SoftDeletes;
+    use HasFactory;
+    use HasSlug;
+    use SoftDeletes;
 
     protected $fillable = [
         'title',
@@ -24,10 +25,6 @@ class Product extends Model
         'image_size',
         'description',
         'price',
-    ];
-
-    protected $casts = [
-        'price' => 'int',
     ];
 
     /**
@@ -48,5 +45,12 @@ class Product extends Model
     public function cartItems(): HasMany
     {
         return $this->hasMany(CartItem::class);
+    }
+
+    protected function casts(): array
+    {
+        return [
+            'price' => 'int',
+        ];
     }
 }

@@ -6,6 +6,7 @@ namespace App\Http\Resources\Product;
 
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\JsonResource;
+use Illuminate\Support\Carbon;
 use Illuminate\Support\Facades\Storage;
 
 /**
@@ -15,8 +16,8 @@ use Illuminate\Support\Facades\Storage;
  * @property-read string $image
  * @property-read string $description
  * @property-read int $price
- * @property-read \Illuminate\Support\Carbon $created_at
- * @property-read \Illuminate\Support\Carbon $updated_at
+ * @property-read Carbon $created_at
+ * @property-read Carbon $updated_at
  */
 class ProductResource extends JsonResource
 {

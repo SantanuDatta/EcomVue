@@ -32,7 +32,9 @@ class ProductController extends Controller
     public function store(ProductRequest $request, CreateImage $createImage): ProductResource
     {
         $validated = $request->validated();
-        /** @var array{image?: string, image_mime?: string, image_size?: int} $imageData */
+        /**
+         * @var array{image?: string, image_mime?: string, image_size?: int} $imageData
+         */
         $imageData = $createImage->handle($request->file('image'));
         $product = Product::create(array_merge($validated, $imageData));
 
@@ -57,7 +59,9 @@ class ProductController extends Controller
 
         if ($request->hasFile('image')) {
             $deleteImage->handle($product->image);
-            /** @var array{image?: string, image_mime?: string, image_size?: int} $imageData */
+            /**
+             * @var array{image?: string, image_mime?: string, image_size?: int} $imageData
+             */
             $imageData = $createImage->handle($request->file('image'));
             $validated = array_merge($validated, $imageData);
         }

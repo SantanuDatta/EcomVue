@@ -10,8 +10,10 @@ use Illuminate\Http\Resources\Json\JsonResource;
 
 /**
  * @property-read int $id
+ * @property-read int $user_id
  * @property-read ProductResource $product
  * @property-read int $quantity
+ * @property-read int $total_price
  */
 class CartItemResource extends JsonResource
 {
@@ -24,8 +26,10 @@ class CartItemResource extends JsonResource
     {
         return [
             'id' => $this->id,
-            'product_id' => new ProductResource($this->whenLoaded('product')),
+            'user_id' => $this->user_id,
+            'product' => new ProductResource($this->whenLoaded('product')),
             'quantity' => $this->quantity,
+            'total_price' => $this->total_price,
         ];
     }
 }
