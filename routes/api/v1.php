@@ -16,7 +16,7 @@ Route::post('/login', [AuthenticatedSessionController::class, 'store'])
     ->middleware('guest')
     ->name('login');
 
-Route::middleware(['auth:sanctum'])->group(function () {
+Route::middleware(['auth:sanctum'])->group(function (): void {
     Route::get('/user', [AuthenticatedSessionController::class, 'index']);
 
     Route::apiResource('/products', ProductController::class);
