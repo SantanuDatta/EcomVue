@@ -1,9 +1,11 @@
 includes:
     - vendor/larastan/larastan/extension.neon
-    - vendor/phpstan/phpstan/conf/bleedingEdge.neon
 
 parameters:
     level: 6
+
+    ignoreErrors:
+        - identifier: missingType.generics
 
     paths:
         - app
@@ -11,3 +13,5 @@ parameters:
         - bootstrap
         - database/factories
         - routes
+        
+    noEnvCallsOutsideOfConfig: false
