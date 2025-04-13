@@ -15,10 +15,10 @@ return new class extends Migration
     {
         Schema::create('orders', function (Blueprint $table): void {
             $table->id();
-            $table->integer('total_price');
-            $table->string('status');
-            $table->foreignId('created_by')->nullable()->constrained('users');
-            $table->foreignId('updated_by')->nullable()->constrained('users');
+            $table->foreignId('user_id')->nullable()->constrained('users')->onDelete('set null');
+            $table->string('guest_token')->nullable()->unique();
+            $table->unsignedBigInteger('total_price');
+            $table->string('status')->default('pending');
             $table->timestamps();
         });
     }

@@ -15,16 +15,17 @@ return new class extends Migration
     {
         Schema::create('order_details', function (Blueprint $table): void {
             $table->id();
-            $table->foreignId('order_id')->constrained('orders');
+            $table->foreignId('order_id')->constrained('orders')->onDelete('cascade');
             $table->string('first_name');
             $table->string('last_name');
+            $table->string('email');
             $table->string('phone')->nullable();
             $table->string('address1');
             $table->string('address2')->nullable();
             $table->string('city');
             $table->string('state')->nullable();
             $table->string('zip_code');
-            $table->string('country_code', 3);
+            $table->string('country_code', 3)->index();
             $table->timestamps();
         });
     }
