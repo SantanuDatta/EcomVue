@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace App\Models;
 
 // use Illuminate\Contracts\Auth\MustVerifyEmail;
+use Carbon\CarbonImmutable;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Foundation\Auth\User as Authenticatable;
@@ -12,6 +13,14 @@ use Illuminate\Notifications\Notifiable;
 
 /**
  * @property-read int $id
+ * @property-read string $name
+ * @property-read string $email
+ * @property-read CarbonImmutable|null $email_verified_at
+ * @property-read string $password
+ * @property-read bool $is_admin
+ * @property-read string|null $remember_token
+ * @property-read CarbonImmutable|null $created_at
+ * @property-read CarbonImmutable|null $updated_at
  */
 class User extends Authenticatable
 {
