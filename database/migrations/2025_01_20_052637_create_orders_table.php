@@ -18,7 +18,7 @@ return new class extends Migration
             $table->foreignId('user_id')->nullable()->constrained('users')->onDelete('set null');
             $table->string('guest_token')->nullable()->unique();
             $table->unsignedBigInteger('total_price');
-            $table->string('status')->default('pending');
+            $table->string('status')->default('pending')->index();
             $table->timestamps();
         });
     }

@@ -21,7 +21,7 @@ return new class extends Migration
             $table->string('image_mime')->nullable();
             $table->string('image_size')->nullable();
             $table->longText('description')->nullable();
-            $table->integer('price');
+            $table->integer('price')->index();
             $table->foreignId('created_by')->nullable()->constrained('users');
             $table->foreignId('updated_by')->nullable()->constrained('users');
             $table->foreignId('deleted_by')->nullable()->constrained('users');
