@@ -5,26 +5,27 @@ declare(strict_types=1);
 namespace App\Models;
 
 // use Illuminate\Contracts\Auth\MustVerifyEmail;
+use App\Enums\RoleEnum;
 use Carbon\CarbonImmutable;
-use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
+use Illuminate\Database\Eloquent\Relations\HasOne;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
+use Illuminate\Support\Str;
 
 /**
  * @property-read int $id
- * @property-read string $name
- * @property-read string $email
+ * @property RoleEnum $role_id
+ * @property string $first_name
+ * @property string $last_name
+ * @property string $username
+ * @property string $email
  * @property-read CarbonImmutable|null $email_verified_at
- * @property-read string $password
- * @property-read bool $is_admin
+ * @property string $password
+ * @property string|null $avatar_url
  * @property-read string|null $remember_token
- * @property-read CarbonImmutable|null $created_at
- * @property-read CarbonImmutable|null $updated_at
- * @property-read Collection<Product> $products
- * @property-read Collection<Order> $orders
- * @property-read Collection<CartItem> $cartItems
  */
 class User extends Authenticatable
 {
@@ -37,10 +38,13 @@ class User extends Authenticatable
      * @var list<string>
      */
     protected $fillable = [
-        'name',
+        'role_id',
+        'first_name',
+        'last_name',
+        'username',
         'email',
         'password',
-        'is_admin',
+        'avatar_url',
     ];
 
     /**
@@ -54,13 +58,19 @@ class User extends Authenticatable
     ];
 
     /**
-     * Define the relationship to the Product model.
-     *
-     * @return HasMany<Product, $this>
+     * @return BelongsTo<Role, $this>
      */
-    public function products(): HasMany
+    public function role(): BelongsTo
     {
-        return $this->hasMany(Product::class);
+        return $this->belongsTo(Role::class);
+    }
+
+    /**
+     * @return HasMany<CustomerAddress, $this>
+     */
+    public function customerAddress(): HasMany
+    {
+        return $this->hasMany(CustomerAddress::class);
     }
 
     /**
@@ -72,11 +82,42 @@ class User extends Authenticatable
     }
 
     /**
-     * @return HasMany<CartItem, $this>
+     * @return HasMany<PaymentDetail, $this>
      */
-    public function cartItems(): HasMany
+    public function paymentDetails(): HasMany
     {
-        return $this->hasMany(CartItem::class);
+        return $this->hasMany(PaymentDetail::class);
+    }
+
+    /**
+     * @return HasOne<Cart, $this>
+     */
+    public function cart(): HasOne
+    {
+        return $this->hasOne(Cart::class);
+    }
+
+    /**
+     * @return HasMany<Wishlist, $this>
+     */
+    public function wishlist(): HasMany
+    {
+        return $this->hasMany(Wishlist::class);
+    }
+
+    protected static function booted(): void
+    {
+        static::creating(function (User $user): void {
+            $baseUsername = Str::slug($user->first_name.' '.$user->last_name);
+            $username = $baseUsername;
+            $counter = 1;
+
+            while (static::where('username', $username)->exists()) {
+                $username = $baseUsername.$counter++;
+            }
+
+            $user->username = $username;
+        });
     }
 
     /**
@@ -87,9 +128,9 @@ class User extends Authenticatable
     protected function casts(): array
     {
         return [
+            'role_id' => RoleEnum::class,
             'email_verified_at' => 'immutable_datetime',
             'password' => 'hashed',
-            'is_admin' => 'boolean',
             'created_at' => 'immutable_datetime',
             'updated_at' => 'immutable_datetime',
         ];

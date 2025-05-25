@@ -4,37 +4,31 @@ declare(strict_types=1);
 
 namespace App\Models;
 
-use Carbon\CarbonImmutable;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
 /**
  * @property-read int $id
- * @property-read int|null $user_id
- * @property-read int $product_id
- * @property-read int $quantity
- * @property-read CarbonImmutable $created_at
- * @property-read CarbonImmutable $updated_at
- * @property-read User|null $user
- * @property-read Product $product
- * @property-read int $total_price
+ * @property int $cart_id
+ * @property int $product_id
+ * @property int $product_sku_id
+ * @property int $quantity
  */
 class CartItem extends Model
 {
     protected $fillable = [
-        'user_id',
+        'cart_id',
         'product_id',
+        'product_sku_id',
         'quantity',
     ];
 
     /**
-     * Define the relationship to the User model.
-     *
-     * @return BelongsTo<User, $this>
+     * @return BelongsTo<Cart, $this>
      */
-    public function user(): BelongsTo
+    public function cart(): BelongsTo
     {
-        return $this->belongsTo(User::class);
+        return $this->belongsTo(Cart::class);
     }
 
     /**
@@ -45,17 +39,11 @@ class CartItem extends Model
         return $this->belongsTo(Product::class);
     }
 
-    public function getTotalPriceAttribute(): int
+    /**
+     * @return BelongsTo<ProductSku, $this>
+     */
+    public function productSku(): BelongsTo
     {
-        return $this->product->price * $this->quantity;
-    }
-
-    protected function casts(): array
-    {
-        return [
-            'quantity' => 'integer',
-            'created_at' => 'immutable_datetime',
-            'updated_at' => 'immutable_datetime',
-        ];
+        return $this->belongsTo(ProductSku::class);
     }
 }

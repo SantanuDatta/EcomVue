@@ -6,28 +6,18 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 
 /**
  * @property-read int $id
  * @property int $user_id
- * @property-read User $user
- * @property string $type
- * @property string $address_one
- * @property string|null $address_two
- * @property string $city
- * @property string|null $state
- * @property string $zip_code
+ * @property int $total
  */
-class CustomerAddress extends Model
+class Cart extends Model
 {
     protected $fillable = [
         'user_id',
-        'type',
-        'address_one',
-        'address_two',
-        'city',
-        'state',
-        'zip_code',
+        'total',
     ];
 
     /**
@@ -36,5 +26,13 @@ class CustomerAddress extends Model
     public function user(): BelongsTo
     {
         return $this->belongsTo(User::class);
+    }
+
+    /**
+     * @return HasMany<CartItem, $this>
+     */
+    public function cartItems(): HasMany
+    {
+        return $this->hasMany(CartItem::class);
     }
 }

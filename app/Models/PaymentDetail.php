@@ -10,15 +10,18 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
 /**
  * @property-read int $id
  * @property int $order_id
- * @property int $product_sku_id
- * @property int $quantity
+ * @property-read Order $order
+ * @property int $amount
+ * @property string $provider
+ * @property string $status
  */
-class OrderItem extends Model
+class PaymentDetail extends Model
 {
     protected $fillable = [
         'order_id',
-        'product_sku_id',
-        'quantity',
+        'amount',
+        'provider',
+        'status',
     ];
 
     /**
@@ -27,13 +30,5 @@ class OrderItem extends Model
     public function order(): BelongsTo
     {
         return $this->belongsTo(Order::class);
-    }
-
-    /**
-     * @return BelongsTo<ProductSku, $this>
-     */
-    public function productSku(): BelongsTo
-    {
-        return $this->belongsTo(ProductSku::class, 'product_sku_id');
     }
 }

@@ -23,7 +23,7 @@ return RectorConfig::configure()
         __DIR__.'/database',
         __DIR__.'/public',
         __DIR__.'/routes',
-        __DIR__.'/tests',
+        // __DIR__.'/tests',
     ])
     ->withBootstrapFiles([__DIR__.'/vendor/larastan/larastan/bootstrap.php'])
     ->withPHPStanConfigs([__DIR__.'/phpstan.neon'])
