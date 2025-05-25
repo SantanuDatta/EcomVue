@@ -41,7 +41,6 @@ axios.interceptors.response.use(
     switch (error instanceof AxiosError && error.response?.status) {
       case 401:
         authStore.cleanState();
-        router.replace({ name: 'login' });
         break;
       case 404:
         router.replace({ name: 'pageNotFound' });
