@@ -1,4 +1,4 @@
-name: Tests
+name: Frontend & Backend Tests
 
 on:
   push:
@@ -13,7 +13,7 @@ jobs:
       matrix:
         php: [8.4]
 
-    name: PHP ${{ matrix.php }} Tests
+    name: EcomVue Frontend & Backend Test
 
     steps:
       - name: Checkout Repository
