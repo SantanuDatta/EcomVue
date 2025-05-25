@@ -13,7 +13,7 @@ jobs:
       matrix:
         php: [8.4]
 
-    name: Tests
+    name: PHP ${{ matrix.php }} Tests
 
     steps:
       - name: Checkout Repository
@@ -25,7 +25,7 @@ jobs:
         uses: actions/cache@v4
         with:
           path: vendor
-          key: dependencies-php-composer-${{ hashFiles('composer.lock') }}
+          key: php-${{ matrix.php }}-composer-${{ hashFiles('composer.lock') }}
 
       # Setup PHP
       - name: Setup PHP
@@ -46,6 +46,7 @@ jobs:
         run: |
           cp .env.example .env
           php artisan key:generate
+          php artisan config:clear
 
       # Set up Node.js for Vue
       - name: Set up Node.js
@@ -55,16 +56,24 @@ jobs:
           cache: 'npm'
           cache-dependency-path: resources/js/client/package-lock.json
 
+      # Cache Node modules
+      - name: Cache node modules
+        uses: actions/cache@v4
+        with:
+          path: resources/js/client/node_modules
+          key: node-modules-${{ hashFiles('resources/js/client/package-lock.json') }}
+
       # Install Vue Dependencies
       - name: Install Vue Dependencies
         working-directory: resources/js/client
+        if: steps.cache-node-modules.outputs.cache-hit != 'true'
         run: npm ci
+
+      # Run Laravel Tests
+      - name: Test Laravel Application
+        run: composer test
 
       # Test Vue Application
       - name: Test Vue Application
         working-directory: resources/js/client
         run: npm run test
-
-      # Run Laravel Tests
-      - name: Test Laravel Application
-        run: composer test
