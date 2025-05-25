@@ -13,7 +13,7 @@ export default defineConfig({
     }
   },
   server: {
-    port: 3000,
-    host: 'ecomvue.test'
+    host: process.env.HOST,
+    port: Number(process.env.PORT),
   }
 });
