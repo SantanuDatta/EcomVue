@@ -60,11 +60,11 @@ jobs:
         working-directory: resources/js/client
         run: npm ci
 
-      # Build Vue Application
-      - name: Build Vue Application
+      # Test Vue Application
+      - name: Test Vue Application
         working-directory: resources/js/client
-        run: npm run build
+        run: npm run test
 
       # Run Laravel Tests
-      - name: Run Tests
+      - name: Test Laravel Application
         run: composer test
