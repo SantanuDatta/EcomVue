@@ -16,6 +16,7 @@
         "spatie/laravel-sluggable": "^3.7.5"
     },
     "require-dev": {
+        "barryvdh/laravel-ide-helper": "^3.5.5",
         "driftingly/rector-laravel": "^2.0.5",
         "fakerphp/faker": "^1.24.1",
         "larastan/larastan": "^3.4.0",
