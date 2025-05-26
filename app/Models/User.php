@@ -7,6 +7,7 @@ namespace App\Models;
 // use Illuminate\Contracts\Auth\MustVerifyEmail;
 use App\Enums\RoleEnum;
 use Carbon\CarbonImmutable;
+use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
@@ -16,16 +17,24 @@ use Illuminate\Notifications\Notifiable;
 use Illuminate\Support\Str;
 
 /**
- * @property-read int $id
+ * @property int $id
  * @property RoleEnum $role_id
  * @property string $first_name
  * @property string $last_name
  * @property string $username
  * @property string $email
- * @property-read CarbonImmutable|null $email_verified_at
+ * @property CarbonImmutable|null $email_verified_at
  * @property string $password
  * @property string|null $avatar_url
- * @property-read string|null $remember_token
+ * @property string|null $remember_token
+ * @property CarbonImmutable|null $created_at
+ * @property CarbonImmutable|null $updated_at
+ * @property-read Cart|null $cart
+ * @property-read Collection|CustomerAddress[] $customerAddress
+ * @property-read Collection|Order[] $orders
+ * @property-read Collection|PaymentDetail[] $paymentDetails
+ * @property-read Role $role
+ * @property-read Collection|Wishlist[] $wishlist
  */
 class User extends Authenticatable
 {

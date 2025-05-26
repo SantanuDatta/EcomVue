@@ -4,6 +4,8 @@ declare(strict_types=1);
 
 namespace App\Models;
 
+use Carbon\CarbonImmutable;
+use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
@@ -11,17 +13,28 @@ use Spatie\Sluggable\HasSlug;
 use Spatie\Sluggable\SlugOptions;
 
 /**
- * @property-read int $int
+ * @property int $id
  * @property int $category_id
  * @property string $title
  * @property string $slug
  * @property string|null $description
- * @property-read bool $is_active
+ * @property bool $is_active
+ * @property CarbonImmutable|null $created_at
+ * @property CarbonImmutable|null $updated_at
+ * @property-read Collection|ProductAttribute[] $attributes
+ * @property-read Category $category
+ * @property-read Collection|ProductImage[] $images
+ * @property-read Collection|Wishlist[] $wishlist
  */
 class Product extends Model
 {
     use HasSlug;
 
+    /**
+     * The attributes that are mass assignable.
+     *
+     * @var list<string>
+     */
     protected $fillable = [
         'category_id',
         'title',
@@ -69,6 +82,11 @@ class Product extends Model
         return $this->hasMany(Wishlist::class);
     }
 
+    /**
+     * Get the attributes that should be cast.
+     *
+     * @return array<string, string>
+     */
     protected function casts()
     {
         return [

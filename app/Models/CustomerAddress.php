@@ -4,22 +4,31 @@ declare(strict_types=1);
 
 namespace App\Models;
 
+use Carbon\CarbonImmutable;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
 /**
- * @property-read int $id
+ * @property int $id
  * @property int $user_id
- * @property-read User $user
  * @property string $type
  * @property string $address_one
  * @property string|null $address_two
+ * @property string $country_code
  * @property string $city
  * @property string|null $state
  * @property string $zip_code
+ * @property CarbonImmutable|null $created_at
+ * @property CarbonImmutable|null $updated_at
+ * @property-read User $user
  */
 class CustomerAddress extends Model
 {
+    /**
+     * The attributes that are mass assignable.
+     *
+     * @var list<string>
+     */
     protected $fillable = [
         'user_id',
         'type',

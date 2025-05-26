@@ -4,11 +4,12 @@ declare(strict_types=1);
 
 namespace App\Models;
 
+use Carbon\CarbonImmutable;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
 /**
- * @property-read int $id
+ * @property int $id
  * @property int $product_id
  * @property int|null $size_attribute_id
  * @property int|null $color_attribute_id
@@ -16,9 +17,19 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
  * @property int $price
  * @property int|null $discount_price
  * @property int $quantity
+ * @property CarbonImmutable|null $created_at
+ * @property CarbonImmutable|null $updated_at
+ * @property-read ProductAttribute|null $colorAttribute
+ * @property-read Product $product
+ * @property-read ProductAttribute|null $sizeAttribute
  */
 class ProductSku extends Model
 {
+    /**
+     * The attributes that are mass assignable.
+     *
+     * @var list<string>
+     */
     protected $fillable = [
         'product_id',
         'size_attribute_id',
