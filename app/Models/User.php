@@ -14,7 +14,6 @@ use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\Relations\HasOne;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
-use Illuminate\Support\Str;
 
 /**
  * @property int $id
@@ -117,7 +116,8 @@ class User extends Authenticatable
     protected static function booted(): void
     {
         static::creating(function (User $user): void {
-            $baseUsername = Str::slug($user->first_name.' '.$user->last_name);
+            $baseUsername = mb_strtolower((string) preg_replace('/\W+/', '', $user->first_name.$user->last_name));
+
             $username = $baseUsername;
             $counter = 1;
 

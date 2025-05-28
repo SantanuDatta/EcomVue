@@ -6,6 +6,7 @@ namespace App\Models;
 
 use Carbon\CarbonImmutable;
 use Illuminate\Database\Eloquent\Collection;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
@@ -28,6 +29,7 @@ use Spatie\Sluggable\SlugOptions;
  */
 class Product extends Model
 {
+    use HasFactory;
     use HasSlug;
 
     /**
@@ -87,7 +89,7 @@ class Product extends Model
      *
      * @return array<string, string>
      */
-    protected function casts()
+    protected function casts(): array
     {
         return [
             'is_active' => 'boolean',
