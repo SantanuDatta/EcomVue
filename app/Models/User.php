@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace App\Models;
 
 // use Illuminate\Contracts\Auth\MustVerifyEmail;
-use App\Enums\RoleEnum;
+use App\Enums\RoleType;
 use Carbon\CarbonImmutable;
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
@@ -156,7 +156,7 @@ class User extends Authenticatable
     protected function casts(): array
     {
         return [
-            'role_id' => RoleEnum::class,
+            'role_id' => RoleType::class,
             'email_verified_at' => 'immutable_datetime',
             'password' => 'hashed',
             'created_at' => 'immutable_datetime',

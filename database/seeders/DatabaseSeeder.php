@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace Database\Seeders;
 
-use App\Enums\RoleEnum;
+use App\Enums\RoleType;
 use App\Models\Category;
 use App\Models\CustomerAddress;
 use App\Models\Product;
@@ -31,7 +31,7 @@ class DatabaseSeeder extends Seeder
         // User::factory(10)->create();
 
         User::factory()->withAvatar()->create([
-            'role_id' => RoleEnum::ADMIN->value,
+            'role_id' => RoleType::ADMIN->value,
             'first_name' => 'Super',
             'last_name' => 'Admin',
             'username' => 'superadmin',

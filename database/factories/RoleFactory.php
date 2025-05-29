@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace Database\Factories;
 
-use App\Enums\RoleEnum;
+use App\Enums\RoleType;
 use App\Models\Role;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
@@ -18,7 +18,7 @@ class RoleFactory extends Factory
      */
     public static function createFixedRoles(): void
     {
-        collect(RoleEnum::cases())->each(function (RoleEnum $role): void {
+        collect(RoleType::cases())->each(function (RoleType $role): void {
             Role::updateOrCreate(
                 ['id' => $role->value],
                 [
@@ -37,9 +37,9 @@ class RoleFactory extends Factory
     public function definition(): array
     {
         return [
-            'id' => RoleEnum::CUSTOMER->value,
-            'name' => mb_strtolower(RoleEnum::CUSTOMER->name),
-            'label' => RoleEnum::CUSTOMER->label(),
+            'id' => RoleType::CUSTOMER->value,
+            'name' => mb_strtolower(RoleType::CUSTOMER->name),
+            'label' => RoleType::CUSTOMER->label(),
         ];
     }
 }
