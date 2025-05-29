@@ -16,7 +16,7 @@ use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 
 /**
- * @property int $id
+ * @property-read int $id
  * @property RoleEnum $role_id
  * @property string $first_name
  * @property string $last_name
@@ -26,8 +26,8 @@ use Illuminate\Notifications\Notifiable;
  * @property string $password
  * @property string|null $avatar_url
  * @property string|null $remember_token
- * @property CarbonImmutable|null $created_at
- * @property CarbonImmutable|null $updated_at
+ * @property-read CarbonImmutable|null $created_at
+ * @property-read CarbonImmutable|null $updated_at
  * @property-read Cart|null $cart
  * @property-read Collection|CustomerAddress[] $customerAddress
  * @property-read Collection|Order[] $orders
@@ -66,6 +66,8 @@ class User extends Authenticatable
     ];
 
     /**
+     * Get the role for the user.
+     *
      * @return BelongsTo<Role, $this>
      */
     public function role(): BelongsTo
@@ -74,6 +76,8 @@ class User extends Authenticatable
     }
 
     /**
+     * Get the customer addresses for the user.
+     *
      * @return HasMany<CustomerAddress, $this>
      */
     public function customerAddress(): HasMany
@@ -82,6 +86,8 @@ class User extends Authenticatable
     }
 
     /**
+     * Get the orders for the user.
+     *
      * @return HasMany<Order, $this>
      */
     public function orders(): HasMany
@@ -90,6 +96,8 @@ class User extends Authenticatable
     }
 
     /**
+     * Get the payment details for the user.
+     *
      * @return HasMany<PaymentDetail, $this>
      */
     public function paymentDetails(): HasMany
@@ -98,6 +106,8 @@ class User extends Authenticatable
     }
 
     /**
+     * Get the cart for the user.
+     *
      * @return HasOne<Cart, $this>
      */
     public function cart(): HasOne
@@ -106,6 +116,8 @@ class User extends Authenticatable
     }
 
     /**
+     * Get the wishlist for the user.
+     *
      * @return HasMany<Wishlist, $this>
      */
     public function wishlist(): HasMany
@@ -113,6 +125,9 @@ class User extends Authenticatable
         return $this->hasMany(Wishlist::class);
     }
 
+    /**
+     * Generate the username & avatar for the user while creating.
+     */
     protected static function booted(): void
     {
         static::creating(function (User $user): void {
@@ -126,6 +141,10 @@ class User extends Authenticatable
             }
 
             $user->username = $username;
+
+            if (! $user->avatar_url) {
+                $user->avatar_url = "https://ui-avatars.com/api/?name={$user->first_name}+{$user->last_name}&background=687387&color=ffffff&bold=true&format=png";
+            }
         });
     }
 

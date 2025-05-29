@@ -11,11 +11,11 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 
 /**
- * @property int $id
+ * @property-read int $id
  * @property string $type
  * @property string $value
- * @property CarbonImmutable|null $created_at
- * @property CarbonImmutable|null $updated_at
+ * @property-read CarbonImmutable|null $created_at
+ * @property-read CarbonImmutable|null $updated_at
  * @property-read Collection|ProductSku[] $productSkus
  */
 class ProductAttribute extends Model
@@ -33,6 +33,8 @@ class ProductAttribute extends Model
     ];
 
     /**
+     * Get the product skus for the product attribute.
+     *
      * @return HasMany<ProductSku, $this>
      */
     public function productSkus(): HasMany

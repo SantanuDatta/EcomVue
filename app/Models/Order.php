@@ -11,11 +11,11 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 
 /**
- * @property int $id
+ * @property-read int $id
  * @property int|null $user_id
  * @property int $total
- * @property CarbonImmutable|null $created_at
- * @property CarbonImmutable|null $updated_at
+ * @property-read CarbonImmutable|null $created_at
+ * @property-read CarbonImmutable|null $updated_at
  * @property-read CustomerAddress|null $customerAddress
  * @property-read Collection|OrderItem[] $orderItems
  * @property-read Collection|PaymentDetail[] $paymentDetails
@@ -34,6 +34,8 @@ class Order extends Model
     ];
 
     /**
+     * Get the user that owns the order.
+     *
      * @return BelongsTo<User, $this>
      */
     public function user(): BelongsTo
@@ -42,6 +44,8 @@ class Order extends Model
     }
 
     /**
+     * Get the order items for the order.
+     *
      * @return HasMany<OrderItem, $this>
      */
     public function orderItems(): HasMany
@@ -50,6 +54,8 @@ class Order extends Model
     }
 
     /**
+     * Get the payment details for the order.
+     *
      * @return HasMany<PaymentDetail, $this>
      */
     public function paymentDetails(): HasMany
@@ -58,6 +64,8 @@ class Order extends Model
     }
 
     /**
+     * Get the customer address for the order.
+     *
      * @return BelongsTo<CustomerAddress, $this>
      */
     public function customerAddress(): BelongsTo

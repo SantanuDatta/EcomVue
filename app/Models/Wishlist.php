@@ -9,11 +9,11 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
 /**
- * @property int $id
+ * @property-read int $id
  * @property int $user_id
  * @property int $product_id
- * @property CarbonImmutable|null $created_at
- * @property CarbonImmutable|null $updated_at
+ * @property-read CarbonImmutable|null $created_at
+ * @property-read CarbonImmutable|null $updated_at
  * @property-read Product $product
  * @property-read User $user
  */
@@ -30,6 +30,8 @@ class Wishlist extends Model
     ];
 
     /**
+     * Get the product that owns the wishlist.
+     *
      * @return BelongsTo<Product, $this>
      */
     public function product(): BelongsTo
@@ -38,6 +40,8 @@ class Wishlist extends Model
     }
 
     /**
+     * Get the user that owns the wishlist.
+     *
      * @return BelongsTo<User, $this>
      */
     public function user(): BelongsTo

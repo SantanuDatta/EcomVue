@@ -14,14 +14,15 @@ use Spatie\Sluggable\HasSlug;
 use Spatie\Sluggable\SlugOptions;
 
 /**
- * @property int $id
+ * @property-read int $id
  * @property int $category_id
  * @property string $title
  * @property string $slug
  * @property string|null $description
  * @property bool $is_active
- * @property CarbonImmutable|null $created_at
- * @property CarbonImmutable|null $updated_at
+ * @property CarbonImmutable|null $published_at
+ * @property-read CarbonImmutable|null $created_at
+ * @property-read CarbonImmutable|null $updated_at
  * @property-read Collection|ProductAttribute[] $attributes
  * @property-read Category $category
  * @property-read Collection|ProductImage[] $images
@@ -43,16 +44,12 @@ class Product extends Model
         'slug',
         'description',
         'is_active',
+        'published_at',
     ];
 
-    public function getSlugOptions(): SlugOptions
-    {
-        return SlugOptions::create()
-            ->generateSlugsFrom('title')
-            ->saveSlugsTo('slug');
-    }
-
     /**
+     * Get the category that owns the product.
+     *
      * @return BelongsTo<Category, $this>
      */
     public function category(): BelongsTo
@@ -61,6 +58,8 @@ class Product extends Model
     }
 
     /**
+     * Get the images for the product.
+     *
      * @return HasMany<ProductImage, $this>
      */
     public function images(): HasMany
@@ -69,6 +68,8 @@ class Product extends Model
     }
 
     /**
+     * Get the attributes for the product.
+     *
      * @return HasMany<ProductAttribute, $this>
      */
     public function attributes(): HasMany
@@ -77,11 +78,23 @@ class Product extends Model
     }
 
     /**
+     * Get the wishlist for the product.
+     *
      * @return HasMany<Wishlist, $this>
      */
     public function wishlist(): HasMany
     {
         return $this->hasMany(Wishlist::class);
+    }
+
+    /**
+     * Get the options for generating the slug.
+     */
+    public function getSlugOptions(): SlugOptions
+    {
+        return SlugOptions::create()
+            ->generateSlugsFrom('title')
+            ->saveSlugsTo('slug');
     }
 
     /**
@@ -93,6 +106,7 @@ class Product extends Model
     {
         return [
             'is_active' => 'boolean',
+            'published_at' => 'immutable_datetime',
         ];
     }
 }

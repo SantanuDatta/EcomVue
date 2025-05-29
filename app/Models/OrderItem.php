@@ -9,12 +9,12 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
 /**
- * @property int $id
+ * @property-read int $id
  * @property int $order_id
  * @property int $product_sku_id
  * @property int $quantity
- * @property CarbonImmutable|null $created_at
- * @property CarbonImmutable|null $updated_at
+ * @property-read CarbonImmutable|null $created_at
+ * @property-read CarbonImmutable|null $updated_at
  * @property-read Order $order
  * @property-read ProductSku $productSku
  */
@@ -32,6 +32,8 @@ class OrderItem extends Model
     ];
 
     /**
+     * Get the order that owns the order item.
+     *
      * @return BelongsTo<Order, $this>
      */
     public function order(): BelongsTo
@@ -40,6 +42,8 @@ class OrderItem extends Model
     }
 
     /**
+     * Get the product sku that owns the order item.
+     *
      * @return BelongsTo<ProductSku, $this>
      */
     public function productSku(): BelongsTo

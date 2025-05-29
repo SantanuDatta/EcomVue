@@ -10,12 +10,12 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
 /**
- * @property int $id
+ * @property-read int $id
  * @property int $product_id
  * @property string $image_url
  * @property bool $is_primary
- * @property CarbonImmutable|null $created_at
- * @property CarbonImmutable|null $updated_at
+ * @property-read CarbonImmutable|null $created_at
+ * @property-read CarbonImmutable|null $updated_at
  * @property-read Product $product
  */
 class ProductImage extends Model
@@ -34,6 +34,8 @@ class ProductImage extends Model
     ];
 
     /**
+     * Get the product that owns the product image.
+     *
      * @return BelongsTo<Product, $this>
      */
     public function product(): BelongsTo

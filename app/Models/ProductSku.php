@@ -10,7 +10,7 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
 /**
- * @property int $id
+ * @property-read int $id
  * @property int $product_id
  * @property int|null $size_attribute_id
  * @property int|null $color_attribute_id
@@ -18,8 +18,8 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
  * @property int $price
  * @property int|null $discount_price
  * @property int $quantity
- * @property CarbonImmutable|null $created_at
- * @property CarbonImmutable|null $updated_at
+ * @property-read CarbonImmutable|null $created_at
+ * @property-read CarbonImmutable|null $updated_at
  * @property-read ProductAttribute|null $colorAttribute
  * @property-read Product $product
  * @property-read ProductAttribute|null $sizeAttribute
@@ -44,6 +44,8 @@ class ProductSku extends Model
     ];
 
     /**
+     * Get the product that owns the product sku.
+     *
      * @return BelongsTo<Product, $this>
      */
     public function product(): BelongsTo
@@ -52,6 +54,8 @@ class ProductSku extends Model
     }
 
     /**
+     * Get the size attribute that owns the product sku.
+     *
      * @return BelongsTo<ProductAttribute, $this>
      */
     public function sizeAttribute(): BelongsTo
@@ -60,6 +64,8 @@ class ProductSku extends Model
     }
 
     /**
+     * Get the color attribute that owns the product sku.
+     *
      * @return BelongsTo<ProductAttribute, $this>
      */
     public function colorAttribute(): BelongsTo

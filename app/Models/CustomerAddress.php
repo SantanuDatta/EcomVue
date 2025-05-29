@@ -10,7 +10,7 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
 /**
- * @property int $id
+ * @property-read int $id
  * @property int $user_id
  * @property string $type
  * @property string $address_one
@@ -19,8 +19,8 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
  * @property string $city
  * @property string|null $state
  * @property string $zip_code
- * @property CarbonImmutable|null $created_at
- * @property CarbonImmutable|null $updated_at
+ * @property-read CarbonImmutable|null $created_at
+ * @property-read CarbonImmutable|null $updated_at
  * @property-read User $user
  */
 class CustomerAddress extends Model
@@ -43,6 +43,8 @@ class CustomerAddress extends Model
     ];
 
     /**
+     * Get the user that owns the customer address.
+     *
      * @return BelongsTo<User, $this>
      */
     public function user(): BelongsTo

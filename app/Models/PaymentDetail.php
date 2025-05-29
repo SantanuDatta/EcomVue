@@ -11,13 +11,13 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
 /**
- * @property int $id
+ * @property-read int $id
  * @property int $order_id
  * @property int $amount
  * @property PaymentProvider $provider
  * @property PaymentStatus $status
- * @property CarbonImmutable|null $created_at
- * @property CarbonImmutable|null $updated_at
+ * @property-read CarbonImmutable|null $created_at
+ * @property-read CarbonImmutable|null $updated_at
  * @property-read Order $order
  */
 class PaymentDetail extends Model
@@ -35,6 +35,8 @@ class PaymentDetail extends Model
     ];
 
     /**
+     * Get the order that owns the payment detail.
+     *
      * @return BelongsTo<Order, $this>
      */
     public function order(): BelongsTo

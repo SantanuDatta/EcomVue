@@ -13,13 +13,13 @@ use Spatie\Sluggable\HasSlug;
 use Spatie\Sluggable\SlugOptions;
 
 /**
- * @property int $id
+ * @property-read int $id
  * @property string $name
  * @property string $slug
  * @property string|null $image_url
  * @property string|null $label
- * @property CarbonImmutable|null $created_at
- * @property CarbonImmutable|null $updated_at
+ * @property-read CarbonImmutable|null $created_at
+ * @property-read CarbonImmutable|null $updated_at
  * @property-read Collection|SubCategory[] $subCategories
  */
 class Category extends Model
@@ -40,6 +40,8 @@ class Category extends Model
     ];
 
     /**
+     * Get the subcategories for the category.
+     *
      * @return HasMany<SubCategory, $this>
      */
     public function subCategories(): HasMany
@@ -47,6 +49,9 @@ class Category extends Model
         return $this->hasMany(SubCategory::class);
     }
 
+    /**
+     * Get the options for generating the slug.
+     */
     public function getSlugOptions(): SlugOptions
     {
         return SlugOptions::create()

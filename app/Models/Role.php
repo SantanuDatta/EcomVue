@@ -11,11 +11,11 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 
 /**
- * @property int $id
+ * @property-read int $id
  * @property string $name
  * @property string|null $label
- * @property CarbonImmutable|null $created_at
- * @property CarbonImmutable|null $updated_at
+ * @property-read CarbonImmutable|null $created_at
+ * @property-read CarbonImmutable|null $updated_at
  * @property-read Collection|User[] $users
  */
 class Role extends Model
@@ -33,6 +33,8 @@ class Role extends Model
     ];
 
     /**
+     * Get the users for the role.
+     *
      * @return HasMany<User, $this>
      */
     public function users(): HasMany

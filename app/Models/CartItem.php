@@ -9,13 +9,13 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
 /**
- * @property int $id
+ * @property-read int $id
  * @property int $cart_id
  * @property int $product_id
  * @property int $product_sku_id
  * @property int $quantity
- * @property CarbonImmutable|null $created_at
- * @property CarbonImmutable|null $updated_at
+ * @property-read CarbonImmutable|null $created_at
+ * @property-read CarbonImmutable|null $updated_at
  * @property-read Cart $cart
  * @property-read Product $product
  * @property-read ProductSku $productSku
@@ -35,6 +35,8 @@ class CartItem extends Model
     ];
 
     /**
+     * Get the cart that owns the cart item.
+     *
      * @return BelongsTo<Cart, $this>
      */
     public function cart(): BelongsTo
@@ -43,6 +45,8 @@ class CartItem extends Model
     }
 
     /**
+     * Get the product that owns the cart item.
+     *
      * @return BelongsTo<Product, $this>
      */
     public function product(): BelongsTo
@@ -51,6 +55,8 @@ class CartItem extends Model
     }
 
     /**
+     * Get the product sku that owns the cart item.
+     *
      * @return BelongsTo<ProductSku, $this>
      */
     public function productSku(): BelongsTo

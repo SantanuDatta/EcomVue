@@ -11,11 +11,11 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 
 /**
- * @property int $id
+ * @property-read int $id
  * @property int $user_id
  * @property int $total
- * @property CarbonImmutable|null $created_at
- * @property CarbonImmutable|null $updated_at
+ * @property-read CarbonImmutable|null $created_at
+ * @property-read CarbonImmutable|null $updated_at
  * @property-read Collection|CartItem[] $cartItems
  * @property-read User $user
  */
@@ -32,6 +32,8 @@ class Cart extends Model
     ];
 
     /**
+     * Get the user that owns the cart.
+     *
      * @return BelongsTo<User, $this>
      */
     public function user(): BelongsTo
@@ -40,6 +42,8 @@ class Cart extends Model
     }
 
     /**
+     * Get the cart items for the cart.
+     *
      * @return HasMany<CartItem, $this>
      */
     public function cartItems(): HasMany
