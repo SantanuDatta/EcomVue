@@ -16,7 +16,6 @@
         "spatie/laravel-sluggable": "^3.7.5"
     },
     "require-dev": {
-        "barryvdh/laravel-ide-helper": "^3.5.5",
         "driftingly/rector-laravel": "^2.0.5",
         "fakerphp/faker": "^1.24.1",
         "larastan/larastan": "^3.4.0",
@@ -67,7 +66,7 @@
         "test:types": "phpstan analyse",
         "test:refactor": "rector --dry-run",
         "test:unit": "pest --colors=always --parallel --coverage --exactly=100",
-        "test:type-coverage": "pest --type-coverage --min=100",
+        "test:type-coverage": "pest --type-coverage --compact --min=100",
         "test": [
             "@test:lint",
             "@test:types",
