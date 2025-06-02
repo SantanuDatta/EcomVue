@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Models;
 
+use App\Enums\AddressType;
 use Carbon\CarbonImmutable;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
@@ -12,7 +13,7 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
 /**
  * @property-read int $id
  * @property int $user_id
- * @property string $type
+ * @property AddressType $type
  * @property string $address_one
  * @property string|null $address_two
  * @property string $country_code
@@ -50,5 +51,17 @@ class CustomerAddress extends Model
     public function user(): BelongsTo
     {
         return $this->belongsTo(User::class);
+    }
+
+    /**
+     * Get the attributes that should be cast.
+     *
+     * @return array<string, string>
+     */
+    protected function casts(): array
+    {
+        return [
+            'type' => AddressType::class,
+        ];
     }
 }
