@@ -20,10 +20,8 @@ class ProductImageFactory extends Factory
      */
     public function definition(): array
     {
-        $productId = Product::factory();
-
         return [
-            'product_id' => $productId,
+            'product_id' => Product::factory(),
             'image_url' => fn (array $attributes): string => "https://api.slingacademy.com/public/sample-products/{$attributes['product_id']}.png",
             'is_primary' => fake()->boolean(70),
         ];

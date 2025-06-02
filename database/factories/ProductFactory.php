@@ -28,6 +28,7 @@ class ProductFactory extends Factory
             'slug' => str($title)->slug(),
             'description' => fake()->paragraph(),
             'is_active' => fake()->boolean(60),
+            'published_at' => fake()->optional(0.5)->dateTime(),
         ];
     }
 }
