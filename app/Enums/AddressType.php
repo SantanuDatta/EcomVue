@@ -15,7 +15,7 @@ enum AddressType: string
      *
      * @return string
      */
-    public static function randomValue()
+    public static function randomValue(): string
     {
         $cases = self::cases();
         $key = array_rand($cases);
