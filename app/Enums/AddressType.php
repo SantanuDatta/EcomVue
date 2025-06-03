@@ -12,8 +12,6 @@ enum AddressType: string
 
     /**
      * Get random enum value
-     *
-     * @return string
      */
     public static function randomValue(): string
     {
