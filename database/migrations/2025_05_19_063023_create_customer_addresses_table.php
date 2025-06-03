@@ -19,7 +19,8 @@ return new class extends Migration
             $table->string('type');
             $table->string('address_one');
             $table->string('address_two')->nullable();
-            $table->string('country_code');
+            $table->string('country_code', 2);
+            $table->foreign('country_code')->references('code')->on('countries')->restrictOnDelete();
             $table->string('city');
             $table->string('state')->nullable();
             $table->string('zip_code');

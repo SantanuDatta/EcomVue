@@ -38,6 +38,7 @@ class CustomerAddress extends Model
         'type',
         'address_one',
         'address_two',
+        'country_code',
         'city',
         'state',
         'zip_code',
@@ -51,6 +52,16 @@ class CustomerAddress extends Model
     public function user(): BelongsTo
     {
         return $this->belongsTo(User::class);
+    }
+
+    /**
+     * Get the country that owns the customer address.
+     *
+     * @return BelongsTo<Country, $this>
+     */
+    public function country(): BelongsTo
+    {
+        return $this->belongsTo(Country::class, 'country_code', 'code');
     }
 
     /**

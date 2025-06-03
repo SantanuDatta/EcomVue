@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Database\Factories;
 
 use App\Enums\AddressType;
+use App\Models\Country;
 use App\Models\CustomerAddress;
 use App\Models\User;
 use Illuminate\Database\Eloquent\Factories\Factory;
@@ -26,7 +27,7 @@ class CustomerAddressFactory extends Factory
             'type' => AddressType::randomValue(),
             'address_one' => fake()->streetAddress(),
             'address_two' => fake()->boolean(70) ? fake()->streetAddress() : null,
-            'country_code' => fake()->countryCode(),
+            'country_code' => Country::inRandomOrder()->value('code') ?? 'US',
             'city' => fake()->city(),
             'state' => fake()->randomElement(['California', 'New York', 'Texas', 'Florida', 'Illinois']),
             'zip_code' => fake()->postcode(),
