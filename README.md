@@ -68,11 +68,13 @@ Note this is a work in progress features will added from time to time.
 
 ## Packages
 
-These are packages that used for this project.
+These are the packages that are being used for this project.
 
-| **Package**                                                                                          | **Author**                                          |
-| :-------------------------------------------------------------------------------------------------- | :-------------------------------------------------- |
-| [Laravel Sluggable by Spatie](https://github.com/spatie/laravel-sluggable) | [Spatie](https://github.com/spatie) |
+| **Package**                                                            | **Author**                                                |**Purpose**                      |
+| :---------------------------------------------------------------- | :---------------------------------------------------- | :---------------------------------- |
+| [Laravel Sluggable by Spatie](https://github.com/spatie/laravel-sluggable) | [Spatie](https://github.com/spatie) | Generate slugs for Eloquent models |
+| [RectorPHP](https://github.com/rectorphp/rector) | [Rector](https://github.com/rectorphp) | Automated PHP code refactoring |
+| [PHPstan](https://github.com/phpstan/phpstan) | [PHPstan](https://github.com/phpstan) | PHP static analysis tool |
 
 ## License
 
