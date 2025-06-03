@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Http\Resources\V1\Categories;
 
+use App\Http\Resources\V1\Categories\Relations\SubCategoryResource;
 use App\Models\Category;
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\JsonResource;
@@ -25,7 +26,7 @@ class IndexResource extends JsonResource
             'name' => $this->name,
             'slug' => $this->slug,
             'image_url' => $this->image_url,
-            'subCategories' => SubIndexResource::collection($this->whenLoaded('subCategories')),
+            'subCategories' => SubCategoryResource::collection($this->whenLoaded('subCategories')),
         ];
     }
 }

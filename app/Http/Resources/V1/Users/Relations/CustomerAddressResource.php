@@ -2,8 +2,9 @@
 
 declare(strict_types=1);
 
-namespace App\Http\Resources\V1\Users;
+namespace App\Http\Resources\V1\Users\Relations;
 
+use App\Http\Resources\V1\Users\IndexResource;
 use App\Models\CustomerAddress;
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\JsonResource;
@@ -22,7 +23,10 @@ class CustomerAddressResource extends JsonResource
     {
         return [
             'id' => $this->id,
-            'type' => $this->type,
+            'user' => $this->whenLoaded('user', fn (): ?IndexResource => $this->user ? new IndexResource($this->user) : null),
+            'type' => [
+                'label' => $this->type->label(),
+            ],
             'address_one' => $this->address_one,
             'address_two' => $this->address_two,
             'country_code' => $this->country_code,

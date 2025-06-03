@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace App\Http\Resources\V1\Products;
+namespace App\Http\Resources\V1\Products\Relations;
 
 use App\Models\ProductSku;
 use Illuminate\Http\Request;

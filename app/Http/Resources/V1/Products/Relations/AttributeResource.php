@@ -2,16 +2,16 @@
 
 declare(strict_types=1);
 
-namespace App\Http\Resources\V1\Products;
+namespace App\Http\Resources\V1\Products\Relations;
 
-use App\Models\ProductImage;
+use App\Models\ProductAttribute;
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\JsonResource;
 
 /**
- * @mixin ProductImage
+ * @mixin ProductAttribute
  */
-class ImageResource extends JsonResource
+class AttributeResource extends JsonResource
 {
     /**
      * Transform the resource into an array.
@@ -22,8 +22,8 @@ class ImageResource extends JsonResource
     {
         return [
             'id' => $this->id,
-            'image_url' => $this->image_url,
-            'is_primary' => $this->is_primary,
+            'type' => $this->type,
+            'value' => $this->value,
         ];
     }
 }

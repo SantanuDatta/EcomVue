@@ -2,8 +2,9 @@
 
 declare(strict_types=1);
 
-namespace App\Http\Resources\V1\Categories;
+namespace App\Http\Resources\V1\Categories\Relations;
 
+use App\Http\Resources\V1\Categories\IndexResource;
 use App\Models\SubCategory;
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\JsonResource;
@@ -11,7 +12,7 @@ use Illuminate\Http\Resources\Json\JsonResource;
 /**
  * @mixin SubCategory
  */
-class SubIndexResource extends JsonResource
+class SubCategoryResource extends JsonResource
 {
     /**
      * Transform the resource into an array.
