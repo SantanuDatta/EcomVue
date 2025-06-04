@@ -23,7 +23,10 @@ class CustomerAddressResource extends JsonResource
     {
         return [
             'id' => $this->id,
-            'user' => $this->whenLoaded('user', fn (): IndexResource => new IndexResource($this->user)),
+            'user' => $this->when(
+                $this->relationLoaded('user') && $this->user_id !== null,
+                fn (): IndexResource => new IndexResource($this->user)
+            ),
             'type' => [
                 'label' => $this->type->label(),
             ],
